@@ -173,10 +173,11 @@ Unfolded  (
  
  xsValue->SetMarkerStyle(kFullCircle);
  
- if (differential == 0) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma/dp_{T,max}^{l}");
- if (differential == 1) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma/dp_{T}(ll)}");
- if (differential == 2) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma/dm_{#font[12]{ll}}");
- if (differential == 3) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma/d#Delta#phi_{ll}");
+ if (differential == 0) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma(WW#rightarrow#mu#nue#nu + < 1 jet)/dp_{T,max}^{l}");
+ if (differential == 1) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma(WW#rightarrow#mu#nue#nu + < 1 jet)/dp_{T}(ll)}");
+ if (differential == 2) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma(WW#rightarrow#mu#nue#nu + < 1 jet)/dm_{#font[12]{ll}}");
+ if (differential == 3) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} d#sigma(WW#rightarrow#mu#nue#nu + < 1 jet)/d#Delta#phi_{ll}");
+
  
 //  if (differential == 0) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} #frac{d#sigma}{dp_{T,max}^{l}}");
 //  if (differential == 1) AxisFonts (xsValue->GetYaxis(), "#frac{1}{#sigma} #frac{d#sigma}{dp_{T}(ll)}");
