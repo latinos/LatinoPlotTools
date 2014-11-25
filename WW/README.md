@@ -12,6 +12,9 @@ Usage example:
     .x finalPlot.C+(5, 1, "#Delta#eta_{jj}", "", "test.root", "delta_eta_jj", 0, 125, 24.4, 1, 20)
     r00t finalPlot.C+\(5,1,\"#Delta#eta_{jj}\",\"\",\"test.root\",\"delta_eta_jj\",0,125,24.4,1,20\)
 
+    r00t finalPlot.C+\(11,1,\"mll\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6.root\",\"mllmthmva_1jet\",0,125,19.4,0,1,0,20,10\)
+
+    
 
 with the following arguments:
 
@@ -39,7 +42,7 @@ The input root file is expected to contain histograms with the following names:
     - Wg       : Vgamma
     - Wgs      : Vgamma*
     - Data     : data
-    - ggH      : gluon fusion singal
+    - ggH      : gluon fusion signal
     - qqH      : vbf signal (if missing is not used)
     - VH       : VH signal (if missing is not used)
 

@@ -21,17 +21,17 @@
 // const Bool_t _isHWWOverlaid = false;
 // const Bool_t _isHWWOverlaid = true;
 
-//PG NB nSamples is the actual size of the enum
+//---- NB nSamples is the actual size of the enum
 // 0/1 jet PAS order:
-enum samp { iWW, iZJets, iTop, iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iVVV, iEM, iWgamma, iWgammaS, iHWW, iggH, iVBF, iVH, nSamples };
+enum samp { iWW, iggWW, iZJets, iTop, iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iVVV, iEM, iWgamma, iWgammaS, iHWW, iggH, iVBF, iVH, nSamples };
 
 // VH and VBF PAS order:
 // enum samp { iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iVVV, iEM, iWgamma, iWgammaS, iTop, iZJets, iWW, iHWW, iggH, iVBF, iVH, nSamples };
 
 
 //                         data
-float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
-float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9};
+float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
+float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
 
 const Float_t _tsize   = 0.033;
 const Float_t _xoffset = 0.20;
@@ -179,6 +179,7 @@ void SetColorsAndLabels ()
   {
     _sampleColor = new Color_t [nSamples] ;
     _sampleColor[iHWW    ] = kRed + 1 ;
+    _sampleColor[iggWW   ] = kAzure - 5 ;
     _sampleColor[iWW     ] = kAzure - 9 ;
     _sampleColor[iEM     ] = kYellow ;
     _sampleColor[iZJets  ] = kGreen + 2 ;
@@ -226,6 +227,8 @@ void SetColorsAndLabels ()
         _sampleLabel[iVH   ] = higgsLabel ;
       }
 
+      
+    _sampleLabel[iggWW   ] = " ggWW"         ;
     _sampleLabel[iWW     ] = " WW"           ;
     _sampleLabel[iZJets  ] = " DY+jets"      ;
     _sampleLabel[iTop    ] = " top"          ;
@@ -247,9 +250,21 @@ void SetColorsAndLabels ()
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 
-  void setDataHist (TH1F * h)                 { _data          = h;  } 
+  void setDataHist (TH1F * h, int blindSX = 0, int blindDX = 0)  {
+   _data          = (TH1F*) h->Clone();  
+   for (int i=0; i<blindSX; i++) {
+    _data->SetBinContent(i+1, 0);
+    _data->SetBinError(i+1, 0);
+   }
+   int nbins = _data->GetNbinsX();
+   for (int i=0; i<blindDX; i++) {
+    _data->SetBinContent(nbins-i, 0);
+    _data->SetBinError(nbins-i, 0);
+   }
+  } 
   void setHWWHist  (TH1F * h)                 { setMCHist (iHWW  ,h); } 
   void setWWHist   (TH1F * h)                 { setMCHist (iWW   ,h); } 
+  void setggWWHist (TH1F * h)                 { setMCHist (iggWW ,h); } 
   void setZJetsHist (TH1F * h)                { setMCHist (iZJets,h); } 
   void setTopHist  (TH1F * h)                 { setMCHist (iTop  ,h); } 
   void setVVHist   (TH1F * h)                 { setMCHist (iVV   ,h); } 
@@ -317,8 +332,8 @@ void SetColorsAndLabels ()
       //setUpStyle ();
       //if (!gPad) new TCanvas ();
     
-      //PG prepare the THStack
-      //PG ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+      //---- prepare the THStack
+      //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
        
       THStack* hstack = new THStack ();
@@ -326,7 +341,7 @@ void SetColorsAndLabels ()
       hSum->Rebin (rebin);
       hSum->Scale (0.0);
 
-      //PG fill the THStack
+      //---- fill the THStack
       for (int itemp = 0 ; itemp < nSamples ; itemp++) 
         {
        
@@ -376,9 +391,9 @@ void SetColorsAndLabels ()
           hSum->Add (temp_hist);
 //           hstack->Add (_hist[i]);
 //           hSum->Add (_hist[i]);
-        } //PG fill the THStack
+        } //---- fill the THStack
     
-      //PG setup signal samples
+      //---- setup signal samples
       for (int i=0; i<nSamples; i++) 
         {
           if (_sigHist[i] == 0 ) continue ;
@@ -386,7 +401,7 @@ void SetColorsAndLabels ()
           _hist[i]->SetLineColor (_sampleColor[i]) ;
           _hist[i]->SetFillStyle (0) ;          
           if (i == iVBF) _hist[i]->SetLineStyle (2) ;
-        } //PG setup signal samples
+        } //---- setup signal samples
     
       if (_data) _data->Rebin (rebin);
       if (_data) _data->SetLineColor (kBlack);
@@ -432,12 +447,12 @@ void SetColorsAndLabels ()
     
       if (_hist[iHWW] && _isHWWOverlaid == false) _hist[iHWW]->Draw ("hist,same");
     
-      //PG draw signal samples
+      //---- draw signal samples
       for (int i = 0 ; i < nSamples; i++) 
         {
           if (_sigHist[i]) _hist[i]->Rebin(rebin);
           if (_sigHist[i]) _hist[i]->Draw ("hist,same") ;
-        } //PG draw signal samples
+        } //---- draw signal samples
 
       if (_data) 
         {
@@ -513,8 +528,8 @@ void SetColorsAndLabels ()
           }
       }
 
-      //PG plotting the legend
-      //PG ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+      //---- plotting the legend
+      //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
       
       TString signalLegendRepr = "l" ;
       
@@ -555,7 +570,7 @@ void SetColorsAndLabels ()
       
       std::cout << " ended " << std::endl;
       
-//      //PG the "CMS" flag
+//      //---- the "CMS" flag
 //      TPaveText *pt = new TPaveText (0.61,0.8337762,0.9408059,0.8862238,"blNDC");
 //      pt->SetName ("title");
 //      pt->SetBorderSize (0);
@@ -570,7 +585,7 @@ void SetColorsAndLabels ()
       double xstart = 0.9 ;
       double ystart = 0.85 ;
   
-//      //PG the CMS label
+//      //---- the CMS label
 //      TLatex* flag_cms = new TLatex (xstart, ystart - dist * distTimes++, TString ("#bf{CMS}"));
 //      flag_cms->SetNDC ();
 //      flag_cms->SetTextAlign (32);
@@ -578,7 +593,7 @@ void SetColorsAndLabels ()
 //      flag_cms->SetTextSize (_tsize);
 //      flag_cms->Draw ("same");
       
-      //PG the lumi label 
+      //---- the lumi label 
 //      if( _lumi < 21. ) { // don't draw this for 7+8 TeV plots 
 //          TLatex* flag_lumi = new TLatex (xstart, ystart - dist * distTimes++, TString::Format ("L = %.1f fb#lower[0.3]{^{-1}}", _lumi)) ;
 //          flag_lumi->SetNDC ();
@@ -588,7 +603,7 @@ void SetColorsAndLabels ()
 //          flag_lumi->Draw ("same");
 //      } 
 
-      //PG the lumi label
+      //---- the lumi label
       for (unsigned int i = 0 ; i < _extraLabels.size () ; ++i) 
         {
           TLatex* flag_extra = new TLatex (xstart, ystart - dist * distTimes++, _extraLabels.at (i)) ;
@@ -654,16 +669,16 @@ void SetColorsAndLabels ()
         TH1F* _data;
 
         //MWL
-        float    _lumi;          //PG lumi on the plot
-        TString  _xLabel;        //PG label of the x axis
-        TString  _units;         //PG units of the x axis
-        TLatex * _lumiLabel;     //PG label with the centre of mass energy and lumi info
-        TLatex * _extraLabel;    //PG any additional labels to be put in the plot
-        int      _breakdown;     //PG 
-        int      _mass;          //PG higgs mass
-        int      _signalZoom;    //PG signal scale factor for plotting and legenda writing
-        TString * _sampleLabel ; //PG list of labels for the samples
-        Color_t * _sampleColor ; //PG list of colors for the samples
+        float    _lumi;          //---- lumi on the plot
+        TString  _xLabel;        //---- label of the x axis
+        TString  _units;         //---- units of the x axis
+        TLatex * _lumiLabel;     //---- label with the centre of mass energy and lumi info
+        TLatex * _extraLabel;    //---- any additional labels to be put in the plot
+        int      _breakdown;     //---- 
+        int      _mass;          //---- higgs mass
+        int      _signalZoom;    //---- signal scale factor for plotting and legenda writing
+        TString * _sampleLabel ; //---- list of labels for the samples
+        Color_t * _sampleColor ; //---- list of colors for the samples
         Bool_t _isHWWOverlaid;
         std::vector<int> _position; //---- order to plot samples
         TGraphAsymmErrors* _BandError; //---- error band from external input (from combine)

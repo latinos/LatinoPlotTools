@@ -25,9 +25,15 @@ finalPlot (int nsel             = 0,
            double lumi          = 4.6, 
            bool doDataMCRatio   = true, 
            int signalZoom       = 1,
-           int labelType        = 0
-)
+           int labelType        = 0,
+           int blindSX          = 0,
+           int blindDX          = 0,
+           int XCanvas          = 500,
+           int YCanvas          = 500
+          )
 {
+ 
+ std::cout << " nsel = " << nsel << std::endl;
  
  gInterpreter->ExecuteMacro("GoodStyle.C");
  gROOT->LoadMacro("StandardPlot.C");
@@ -81,18 +87,23 @@ finalPlot (int nsel             = 0,
  
  std::cout << "getting histograms " << std::endl ;
  
- TH1F* hWW     = (TH1F*) file->Get ("WW");
- TH1F* hZZ     = (TH1F*) file->Get ("ZZ");
- TH1F* hFakes  = (TH1F*) file->Get ("fakes");
- TH1F* hZJets  = (TH1F*) file->Get ("DY+jets");
- TH1F* hTop    = (TH1F*) file->Get ("top");
- TH1F* hVV     = (TH1F*) file->Get ("VV"); 
- TH1F* hVVV    = (TH1F*) file->Get ("VVV"); 
- TH1F* hWZ     = (TH1F*) file->Get ("WZ"); 
- TH1F* hWJets  = (TH1F*) file->Get ("W+jets");
- TH1F* hWg     = (TH1F*) file->Get ("Wg");
- TH1F* hWgs    = (TH1F*) file->Get ("Wgs");
- TH1F* hVg     = (TH1F*) file->Get ("Vg");
+ TH1F* hWW       = (TH1F*) file->Get ("WW");
+ TH1F* hZZ       = (TH1F*) file->Get ("ZZ");
+ TH1F* hFakes    = (TH1F*) file->Get ("fakes");
+ TH1F* hZJets    = (TH1F*) file->Get ("DY+jets");
+ TH1F* hTop      = (TH1F*) file->Get ("top");
+ TH1F* hVV       = (TH1F*) file->Get ("VV"); 
+ TH1F* hVVV      = (TH1F*) file->Get ("VVV"); 
+ TH1F* hWZ       = (TH1F*) file->Get ("WZ"); 
+ TH1F* hWJets    = (TH1F*) file->Get ("W+jets");
+ TH1F* hWg       = (TH1F*) file->Get ("Wg");
+ TH1F* hWgs      = (TH1F*) file->Get ("Wgs");
+ TH1F* hVg       = (TH1F*) file->Get ("Vg");
+ TH1F* hggWW     = (TH1F*) file->Get ("ggWW");
+ TH1F* hVVandVVV = (TH1F*) file->Get ("VVandVVV"); 
+ 
+ 
+ 
  
  double scale = 1;
  if (hWW)    hWW   ->Scale(scale);
@@ -106,6 +117,8 @@ finalPlot (int nsel             = 0,
  if (hWg)    hWg   ->Scale(scale);
  if (hWgs)   hWgs  ->Scale(scale);
  if (hVg)    hVg   ->Scale(scale);
+ if (hggWW)  hggWW ->Scale(scale);
+ if (hVVandVVV)  hVVandVVV ->Scale(scale);
  
  //---- get the signal histograms from the file
  //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -117,6 +130,13 @@ finalPlot (int nsel             = 0,
  if (hggH) hggH->Scale (scale * signalZoom);
  if (hqqH) hqqH->Scale (scale * signalZoom);
  if (hVH)  hVH->Scale  (scale * signalZoom);
+
+
+ TH1F* hggHoff = (TH1F*) file->Get("ggHoff");
+ TH1F* hqqHoff = (TH1F*) file->Get("qqHoff");
+ 
+ if (hggHoff)  hggHoff ->Scale(scale);
+ if (hqqHoff)  hqqHoff ->Scale(scale);
  
  //---- assing the plots to the object making the plots,
  //---- according to the channel
@@ -326,9 +346,36 @@ finalPlot (int nsel             = 0,
   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("error")));
   myPlot._sampleLabel[iWgamma] = " W#gamma^{(*)}";
   myPlot._sampleLabel[iHWW] = " H #rightarrow WW";
+  
  }
  else if (nsel == 11) {
  std::cout << "nsel = " << nsel << ", Higgs width analysis plots" << std::endl ;
+ if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
+ if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
+ if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+ if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVVandVVV  ->Clone("hVVandVVV")); 
+ if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
+ if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
+ // --> Vg means Zgamma + Wgamma + Wgamma*
+ if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
+ 
+ TH1F* hHWWoff  = (TH1F*) hggHoff->Clone ("hggHoff");
+ if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
+ myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
+ myPlot.setIsHWWOverlaid(true);
+//  myPlot.setBreakdown(2);
+ 
+ TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
+ if (hqqH != 0) hHWW->Add (hqqH) ;
+ if (hVH != 0)  hHWW->Add (hVH) ;
+ myPlot.setMCHist (iWgammaS, (TH1F*) hHWW->Clone ("hHWW")) ;
+ 
+ myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
+ myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
+ myPlot._sampleLabel[iHWW] = " H off 30#Gamma_{SM}";
+ myPlot._sampleLabel[iWgammaS] = " H on";
+ myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
+ myPlot._sampleLabel[iggWW] = " ggWW";
  }
  
  //---- get the data histogram
@@ -339,11 +386,11 @@ finalPlot (int nsel             = 0,
  TH1F *hData = (TH1F*)file->Get("Data"); 
  
  std::cout << "passing data to the plotting object" << std::endl ;
- myPlot.setDataHist((TH1F*)hData->Clone("data"));
+ myPlot.setDataHist((TH1F*)hData->Clone("data"), blindSX, blindDX);
  
  std::cout << "printout" << std::endl ;
  
- TCanvas* c1 = new TCanvas("c1", "c1");
+ TCanvas* c1 = new TCanvas("c1", "c1", XCanvas, YCanvas);
  
  if(isLogY == true) c1->SetLogy();
  
