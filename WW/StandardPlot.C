@@ -30,8 +30,8 @@ enum samp { iWW, iggWW, iZJets, iTop, iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iV
 
 
 //                         data
-float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
-float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
+float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
+float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
 
 const Float_t _tsize   = 0.033;
 const Float_t _xoffset = 0.20;
@@ -498,7 +498,8 @@ void SetColorsAndLabels ()
           hstack->SetMaximum (18 * theMax);
           hstack->SetMinimum (0.10);
       } else {
-        hstack->SetMaximum (1.55 * theMax);
+        hstack->SetMaximum (1.75 * theMax);
+//         hstack->SetMaximum (1.55 * theMax);
       }
 
       if     (_breakdown == 1) {
