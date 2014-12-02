@@ -163,6 +163,7 @@ class StandardPlot {
               {
                 std::cout << "DEBUG reading background\n" ;
                 _bkgHist[s] = h ;
+                std::cout << " > DEBUG reading background (end)\n" ;
               }
             else  
               {

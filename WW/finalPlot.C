@@ -101,7 +101,13 @@ finalPlot (int nsel             = 0,
  TH1F* hVg       = (TH1F*) file->Get ("Vg");
  TH1F* hggWW     = (TH1F*) file->Get ("ggWW");
  TH1F* hVVandVVV = (TH1F*) file->Get ("VVandVVV"); 
+
+ TH1F* hDYJets   = (TH1F*) file->Get ("DYll");
+ TH1F* hWjets    = (TH1F*) file->Get ("Wjets");
  
+ //---- fix of names
+ if (hDYJets && !hZJets) hZJets = hDYJets;
+ if (hWjets  && !hWJets) hWJets = hWjets;
  
  
  
@@ -349,33 +355,63 @@ finalPlot (int nsel             = 0,
   
  }
  else if (nsel == 11) {
- std::cout << "nsel = " << nsel << ", Higgs width analysis plots" << std::endl ;
- if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
- if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
- if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
- if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVVandVVV  ->Clone("hVVandVVV")); 
- if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
- if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
- // --> Vg means Zgamma + Wgamma + Wgamma*
- if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
- 
- TH1F* hHWWoff  = (TH1F*) hggHoff->Clone ("hggHoff");
- if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
- myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
- myPlot.setIsHWWOverlaid(true);
-//  myPlot.setBreakdown(2);
- 
- TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
- if (hqqH != 0) hHWW->Add (hqqH) ;
- if (hVH != 0)  hHWW->Add (hVH) ;
- myPlot.setMCHist (iWgammaS, (TH1F*) hHWW->Clone ("hHWW")) ;
- 
- myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
- myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
- myPlot._sampleLabel[iHWW] = " H off 30#Gamma_{SM}";
- myPlot._sampleLabel[iWgammaS] = " H on";
- myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
- myPlot._sampleLabel[iggWW] = " ggWW";
+  std::cout << "nsel = " << nsel << ", Higgs width analysis plots" << std::endl ;
+  if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
+  if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
+  if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+  if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVVandVVV  ->Clone("hVVandVVV")); 
+  if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
+  if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
+  // --> Vg means Zgamma + Wgamma + Wgamma*
+  if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
+  
+  TH1F* hHWWoff  = (TH1F*) hggHoff->Clone ("hggHoff");
+  if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
+  myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
+  myPlot.setIsHWWOverlaid(true);
+  //  myPlot.setBreakdown(2);
+  
+  TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
+  if (hqqH != 0) hHWW->Add (hqqH) ;
+  if (hVH != 0)  hHWW->Add (hVH) ;
+  myPlot.setMCHist (iWgammaS, (TH1F*) hHWW->Clone ("hHWW")) ;
+  
+  myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
+  myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
+  myPlot._sampleLabel[iHWW] = " H off 30#Gamma_{SM}";
+  myPlot._sampleLabel[iWgammaS] = " H on";
+  myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
+  myPlot._sampleLabel[iggWW] = " ggWW";
+ }
+ else if (nsel == 12) {
+  std::cout << "nsel = " << nsel << ", Higgs width analysis plots: control plots" << std::endl ;
+  if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
+  if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
+  if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+//   if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVV   ->Clone("hVV")); 
+  if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVVandVVV  ->Clone("hVVandVVV")); 
+  if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
+//   if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
+  // --> Vg means Zgamma + Wgamma + Wgamma* 
+    if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
+  
+//   TH1F* hHWWoff  = (TH1F*) hggHoff->Clone ("hggHoff");
+//   if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
+//   myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
+//   myPlot.setIsHWWOverlaid(true);
+  //  myPlot.setBreakdown(2);
+  
+//   TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
+//   if (hqqH != 0) hHWW->Add (hqqH) ;
+//   if (hVH != 0)  hHWW->Add (hVH) ;
+//   myPlot.setMCHist (iWgammaS, (TH1F*) hHWW->Clone ("hHWW")) ;
+  
+//   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
+//   myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
+//   myPlot._sampleLabel[iHWW] = " H off 30#Gamma_{SM}";
+//   myPlot._sampleLabel[iWgammaS] = " H on";
+  myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
+  myPlot._sampleLabel[iggWW] = " ggWW";
  }
  
  //---- get the data histogram
@@ -384,6 +420,10 @@ finalPlot (int nsel             = 0,
  std::cout << "getting data" << std::endl ;
  
  TH1F *hData = (TH1F*)file->Get("Data"); 
+ 
+ if (!hData) { //---- in case "Data" is called "data"
+  hData = (TH1F*)file->Get("data"); 
+ }
  
  std::cout << "passing data to the plotting object" << std::endl ;
  myPlot.setDataHist((TH1F*)hData->Clone("data"), blindSX, blindDX);
