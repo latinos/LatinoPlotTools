@@ -6,7 +6,7 @@ root -l -q finalPlot.C+\(12,1,\"M_{ll}\",\"\",\"data-hwidth/2j/NoMjjCut/mll_2j.r
 root -l -q finalPlot.C+\(12,1,\"m_{T}^{H}\",\"\",\"data-hwidth/2j/NoMjjCut/mth_2j.root\",\"mth_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 root -l -q finalPlot.C+\(12,1,\"pfmet\",\"\",\"data-hwidth/2j/NoMjjCut/pfmet_2j.root\",\"pfmet_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep1}\",\"\",\"data-hwidth/2j/NoMjjCut/pt1_2j.root\",\"pt1_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
-root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep2}\",\"\",\"data-hwidth/2j/NoMjjCut/pt2_2j.root\",\"pt2_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
+root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep2}\",\"\",\"data-hwidth/2j/NoMjjCut/pt2_wj.root\",\"pt2_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep\,lep}\",\"\",\"data-hwidth/2j/NoMjjCut/ptll_2j.root\",\"ptll_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 # 
 # 

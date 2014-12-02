@@ -388,7 +388,7 @@ finalPlot (int nsel             = 0,
  else if (nsel == 12) {
   std::cout << "nsel = " << nsel << ", Higgs width analysis plots: control plots" << std::endl ;
   
-  hWJets->Scale(1./ 19.4);
+//   hWJets->Scale(1./ 19.4);
   
   if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
   if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
