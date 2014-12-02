@@ -65,9 +65,19 @@ The available analysis categories for the plotting are the following:
     - nsel == 10 : HWW main analysis, but with input error band, no signal thus no signal legend
     - nsel == 11 : Higgs width analysis
     
+
     
+Produce H-width plots
+---------------------------------------------------
+    
+    sh scripts/doHWidth_1.sh
+    sh scripts/doHWidth_2.sh
+    sh scripts/doHWidth_Top_control.sh
+    sh scripts/doHWidth_2j.sh
     
 
+    
+    
 
 Produce WW unfolded cross section plots
 ---------------------------------------------------
