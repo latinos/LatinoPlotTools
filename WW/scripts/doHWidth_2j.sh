@@ -6,9 +6,16 @@ root -l -q finalPlot.C+\(12,1,\"M_{ll}\",\"\",\"data-hwidth/2j/NoMjjCut/mll_2j.r
 root -l -q finalPlot.C+\(12,1,\"m_{T}^{H}\",\"\",\"data-hwidth/2j/NoMjjCut/mth_2j.root\",\"mth_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 root -l -q finalPlot.C+\(12,1,\"pfmet\",\"\",\"data-hwidth/2j/NoMjjCut/pfmet_2j.root\",\"pfmet_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep1}\",\"\",\"data-hwidth/2j/NoMjjCut/pt1_2j.root\",\"pt1_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
-root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep2}\",\"\",\"data-hwidth/2j/NoMjjCut/pt2_wj.root\",\"pt2_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
+root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep2}\",\"\",\"data-hwidth/2j/NoMjjCut/pt2_2j.root\",\"pt2_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep\,lep}\",\"\",\"data-hwidth/2j/NoMjjCut/ptll_2j.root\",\"ptll_2jet\",0,125,19.4,0,1,0,0,0,800,600\)
 # 
+root -l -q finalPlot.C+\(12,1,\"#Delta#eta_{jj}\",\"\",\"data-hwidth/2j/MjjCut/detajj_2j.root\",\"mjjcut_detajj_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
+root -l -q finalPlot.C+\(12,1,\"M_{ll}\",\"\",\"data-hwidth/2j/MjjCut/mll_2j.root\",\"mjjcut_mll_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
+root -l -q finalPlot.C+\(12,1,\"m_{T}^{H}\",\"\",\"data-hwidth/2j/MjjCut/mth_2j.root\",\"mjjcut_mth_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
+root -l -q finalPlot.C+\(12,1,\"pfmet\",\"\",\"data-hwidth/2j/MjjCut/pfmet_2j.root\",\"mjjcut_pfmet_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
+root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep1}\",\"\",\"data-hwidth/2j/MjjCut/pt1_2j.root\",\"mjjcut_pt1_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
+root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep2}\",\"\",\"data-hwidth/2j/MjjCut/pt2_2j.root\",\"mjjcut_pt2_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
+root -l -q finalPlot.C+\(12,1,\"p_{T}^{lep\,lep}\",\"\",\"data-hwidth/2j/MjjCut/ptll_2j.root\",\"mjjcut_ptll_2jet\",0,125,19.4,0,1,0,20,20,800,600\)
 # 
 # data-hwidth/2j/NoMjjCut
 # detajj_2j.root  etal1jet_2j.root  etal2jet_2j.root  mll_2j.root  mpmet_2j.root  mth_2j.root  pfmet_2j.root  pt1_2j.root  pt2_2j.root  ptll_2j.root
