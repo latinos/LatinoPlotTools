@@ -72,9 +72,11 @@ Produce H-width plots
     
     sh scripts/doHWidth_1.sh
     sh scripts/doHWidth_2.sh
-    sh scripts/doHWidth_Top_control.sh
     sh scripts/doHWidth_2j.sh
     
+for paper:
+
+    sh scripts/doHWidth_Top_control.sh
 
     
     
