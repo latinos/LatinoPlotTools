@@ -380,8 +380,8 @@ finalPlot (int nsel             = 0,
   
   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
   myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
-  myPlot._sampleLabel[iHWW] = " H off 30#Gamma_{SM}";
-  myPlot._sampleLabel[iWgammaS] = " H on";
+  myPlot._sampleLabel[iHWW] = " off-shell 30 x #Gamma_{SM}";
+  myPlot._sampleLabel[iWgammaS] = " on-shell";
   myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
   myPlot._sampleLabel[iggWW] = " ggWW";
  }
@@ -413,8 +413,8 @@ finalPlot (int nsel             = 0,
   
 //   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
   myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
-  myPlot._sampleLabel[iHWW] = " H off 30#Gamma_{SM}";
-  myPlot._sampleLabel[iWgammaS] = " H on";
+  myPlot._sampleLabel[iHWW] = " off-shell 30 x #Gamma_{SM}";
+  myPlot._sampleLabel[iWgammaS] = " on-shell";
   myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
   myPlot._sampleLabel[iggWW] = " ggWW";
  }
