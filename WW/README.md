@@ -70,6 +70,8 @@ The available analysis categories for the plotting are the following:
 Produce H-width plots
 ---------------------------------------------------
     
+    r00t finalPlot.C+\(11,1,\"mll\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6.root\",\"mllmthmva_1jet\",0,125,19.4,0,1,0,20,10,800,600\)
+
     sh scripts/doHWidth_2.sh
     sh scripts/doHWidth_2j.sh
     
