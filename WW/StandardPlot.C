@@ -618,13 +618,21 @@ void SetColorsAndLabels ()
           flag_extra->Draw ("same");
         }
 
-      TLatex * CMSLabel = new TLatex (0.18, 0.93, "#bf{CMS}");
+      TLatex * CMSLabel = new TLatex (0.18, 0.93, "CMS");
       CMSLabel->SetNDC ();
       CMSLabel->SetTextAlign (10);
-      CMSLabel->SetTextFont (42);
+      CMSLabel->SetTextFont (61);
       CMSLabel->SetTextSize (_tsize);
       CMSLabel->Draw ("same") ;
 
+      TLatex * CMSLabelPreliminary = new TLatex (0.25, 0.92, "Preliminary");
+      CMSLabelPreliminary->SetNDC ();
+      CMSLabelPreliminary->SetTextAlign (10);
+      CMSLabelPreliminary->SetTextFont (52);
+      CMSLabelPreliminary->SetTextSize (_tsize);
+      CMSLabelPreliminary->Draw ("same") ;
+      
+      
       _lumiLabel->Draw ("same") ;
       return hstack->GetHistogram () ;
     }
