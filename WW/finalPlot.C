@@ -474,6 +474,10 @@ finalPlot (int nsel             = 0,
  
  if(isLogY == true) c1->SetLogy();
  
+ //---- fold the underflow and overflow bin
+ myPlot.FoldOverFlowUnderFlowBin();
+ 
+ 
  std::cout << "call the draw method of the plotting tool" << std::endl ;
  myPlot.Draw(ReBin);  // Can pass a rebin 
  std::cout << "done" << std::endl ;
