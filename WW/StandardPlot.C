@@ -41,6 +41,23 @@ const Float_t _yoffset = 0.05;
 
 
 //------------------------------------------------------------------------------
+// AddNuisance
+//------------------------------------------------------------------------------
+//----              in %, e.g. 0.10 -> 10%
+TH1F* AddNuisance (float uncertainty, TH1F* h) {
+//  std::cout << " AddNuisance: " << h->GetTitle() << std::endl; 
+ for (Int_t i=0; i<=h->GetNbinsX (); i++) { 
+  Float_t binHeight = h->GetBinContent (i);
+  Float_t binTempError = h->GetBinError (i);
+  h->SetBinError(i, sqrt(binTempError*binTempError + binHeight*binHeight*uncertainty*uncertainty));
+//   std::cout << " Error = " << sqrt(binTempError*binTempError + binHeight*binHeight*uncertainty*uncertainty) << std::endl;
+ }
+ return h;
+}
+
+
+
+//------------------------------------------------------------------------------
 // GetMaximumIncludingErrors
 //------------------------------------------------------------------------------
 Float_t GetMaximumIncludingErrors (TH1F* h)

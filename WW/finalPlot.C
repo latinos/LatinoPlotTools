@@ -393,9 +393,15 @@ finalPlot (int nsel             = 0,
   if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
   if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
   if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+//   if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     AddNuisance(0.10, (TH1F*)hTop  ->Clone("hTop")));
+  
+  
 // //   if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVV   ->Clone("hVV")); 
   if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVVandVVV  ->Clone("hVVandVVV")); 
-  if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
+
+//   if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
+  if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   AddNuisance(0.36, (TH1F*)hWJets->Clone("hWJets")));
+
   if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
   // --> Vg means Zgamma + Wgamma + Wgamma* 
     if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
@@ -420,9 +426,19 @@ finalPlot (int nsel             = 0,
  }
  else if (nsel == 13) {
   std::cout << "nsel = " << nsel << ", Higgs width analysis plots: Top control plots" << std::endl ;
+  
+  
+//   if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      AddNuisance(0.10, (TH1F*)hWW   ->Clone("hWW")));
+  
   if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
+  
+  
   if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
-  if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+
+    if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+//   if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     AddNuisance(1.00, (TH1F*)hTop  ->Clone("hTop")));
+  
+  
   //   if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVV   ->Clone("hVV")); 
     if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVVandVVV  ->Clone("hVVandVVV")); 
   if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
