@@ -380,8 +380,7 @@ void SetColorsAndLabels ()
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 
-  TH1* Draw (const int &rebin=1) 
-    {
+  TH1* Draw (const int &rebin=1) {
       //setUpStyle ();
       //if (!gPad) new TCanvas ();
     
@@ -395,67 +394,60 @@ void SetColorsAndLabels ()
       hSum->Scale (0.0);
 
       //---- fill the THStack
-      for (int itemp = 0 ; itemp < nSamples ; itemp++) 
-        {
+      for (int itemp = 0 ; itemp < nSamples ; itemp++) {
        
-          int i = _position.at(itemp);
+       int i = _position.at(itemp);
        
-          if (_bkgHist[i] == 0) 
-            {
-              if (!_isHWWOverlaid ) continue ;
-              else if (_sigHist[i] == 0) continue ;
-            }  
-
-          if (_hist[i] == 0)
-            {
-              std::cerr << "error: something is messed up in reading samples, exiting" << std::endl ;
-              exit (1) ;
-            }
-    
-          bool modifyXAxis = false;
-          if (modifyXAxis == true)
-            {
-              TAxis *xa =_hist[i]->GetXaxis ();
-              for (Int_t k=1;k<=_hist[i]->GetNbinsX ();++k)
-                {
-                  xa->SetBinLabel (1 ,"2#mu+#mu");
-                  xa->SetBinLabel (2 ,"2#mu+e");
-                  xa->SetBinLabel (3 ,"2e+#mu");
-                  xa->SetBinLabel (4 ,"2e+e");
-                  xa->SetRangeUser (1,4);
-                }
-            }
-            
-          _hist[i]->Rebin (rebin);
-          _hist[i]->SetLineColor (_sampleColor[i]);
-    
-          _hist[i]->SetFillColor (_sampleColor[i]);
-          _hist[i]->SetFillStyle (1001);
-    
-	      //---- the signal
-          if (i==13 || i==14 || i==15 || i==16) 
-            {
-              _hist[i]->SetLineWidth (3);
-              _hist[i]->SetFillStyle (0);
-            }
-	   
-          TH1F* temp_hist = (TH1F*) _hist[i]->Clone();
-          hstack->Add (temp_hist);
-          hSum->Add (temp_hist);
-//           hstack->Add (_hist[i]);
-//           hSum->Add (_hist[i]);
-        } //---- fill the THStack
+       if (_bkgHist[i] == 0) {
+        if (!_isHWWOverlaid ) continue ;
+        else if (_sigHist[i] == 0) continue ;
+       }  
+       
+       if (_hist[i] == 0) {
+        std::cerr << "error: something is messed up in reading samples, exiting" << std::endl ;
+        exit (1) ;
+       }
+       
+       bool modifyXAxis = false;
+       if (modifyXAxis == true) {
+        TAxis *xa =_hist[i]->GetXaxis ();
+        for (Int_t k=1;k<=_hist[i]->GetNbinsX ();++k) {
+         xa->SetBinLabel (1 ,"2#mu+#mu");
+         xa->SetBinLabel (2 ,"2#mu+e");
+         xa->SetBinLabel (3 ,"2e+#mu");
+         xa->SetBinLabel (4 ,"2e+e");
+         xa->SetRangeUser (1,4);
+        }
+       }
+       
+       _hist[i]->Rebin (rebin);
+       _hist[i]->SetLineColor (_sampleColor[i]);
+       
+       _hist[i]->SetFillColor (_sampleColor[i]);
+       _hist[i]->SetFillStyle (1001);
+       
+       //---- the signal
+       if (i==13 || i==14 || i==15 || i==16) {
+        _hist[i]->SetLineWidth (3);
+        _hist[i]->SetFillStyle (0);
+       }
+       
+       TH1F* temp_hist = (TH1F*) _hist[i]->Clone();
+       hstack->Add (temp_hist);
+       hSum->Add (temp_hist);
+       //           hstack->Add (_hist[i]);
+       //           hSum->Add (_hist[i]);
+      } //---- fill the THStack
     
       //---- setup signal samples
-      for (int i=0; i<nSamples; i++) 
-        {
-          if (_sigHist[i] == 0 ) continue ;
-          _hist[i]->SetLineWidth (3) ;
-          _hist[i]->SetLineColor (_sampleColor[i]) ;
-          _hist[i]->SetFillStyle (0) ;          
-          if (i == iVBF) _hist[i]->SetLineStyle (2) ;
-        } //---- setup signal samples
-    
+      for (int i=0; i<nSamples; i++) {
+       if (_sigHist[i] == 0 ) continue ;
+       _hist[i]->SetLineWidth (3) ;
+       _hist[i]->SetLineColor (_sampleColor[i]) ;
+       _hist[i]->SetFillStyle (0) ;          
+       if (i == iVBF) _hist[i]->SetLineStyle (2) ;
+      } //---- setup signal samples
+      
       if (_data) _data->Rebin (rebin);
       if (_data) _data->SetLineColor (kBlack);
       if (_data) _data->SetMarkerStyle (kFullCircle);
@@ -464,227 +456,222 @@ void SetColorsAndLabels ()
     
       bool addTenPerCentSyst = false;
       bool plotSystErrorBars = true;
+      
       if (plotSystErrorBars == true)
-        {
-          TGraphAsymmErrors * gsyst = new TGraphAsymmErrors (hSum);
-          for (int i = 0; i < gsyst->GetN (); ++i) {
-           if (addTenPerCentSyst) {
-            gsyst->SetPointEYlow (i, sqrt (hSum->GetBinError (i+1)*hSum->GetBinError (i+1)+hSum->GetBinContent (i+1)*hSum->GetBinContent (i+1)*0.10*0.10));
-            gsyst->SetPointEYhigh (i, sqrt (hSum->GetBinError (i+1)*hSum->GetBinError (i+1)+hSum->GetBinContent (i+1)*hSum->GetBinContent (i+1)*0.10*0.10));
-           }
-           else {
-            gsyst->SetPointEYlow (i, hSum->GetBinError (i+1));
-            gsyst->SetPointEYhigh (i, hSum->GetBinError (i+1));   
-           }
-          }
-          gsyst->SetFillColor (12);
-          gsyst->SetFillStyle (3345);
-          gsyst->SetMarkerSize (0);
-          gsyst->SetLineWidth (0);
-          gsyst->SetLineColor (kWhite);
-          
-          if (_BandError != 0x0) {
-           _BandError -> SetFillColor (12);
-           _BandError -> SetFillStyle (3345);
-           _BandError -> SetMarkerSize (0);
-           _BandError -> SetLineWidth (0);
-           _BandError -> SetLineColor (kWhite);
-           _BandError -> Draw ("E2same");
-          }
-          else {
-           gsyst->Draw ("E2same");
-          }
-          //TExec *setex1 = new TExec ("setex1","gStyle->SetErrorX (0)");
-          //setex1->Draw ();
+      {
+       TGraphAsymmErrors * gsyst = new TGraphAsymmErrors (hSum);
+       for (int i = 0; i < gsyst->GetN (); ++i) {
+        if (addTenPerCentSyst) {
+         gsyst->SetPointEYlow (i, sqrt (hSum->GetBinError (i+1)*hSum->GetBinError (i+1)+hSum->GetBinContent (i+1)*hSum->GetBinContent (i+1)*0.10*0.10));
+         gsyst->SetPointEYhigh (i, sqrt (hSum->GetBinError (i+1)*hSum->GetBinError (i+1)+hSum->GetBinContent (i+1)*hSum->GetBinContent (i+1)*0.10*0.10));
         }
-    
+        else {
+         gsyst->SetPointEYlow (i, hSum->GetBinError (i+1));
+         gsyst->SetPointEYhigh (i, hSum->GetBinError (i+1));
+        }
+       }
+       gsyst->SetFillColor (12);
+       gsyst->SetFillStyle (3345);
+       gsyst->SetMarkerSize (0);
+       gsyst->SetLineWidth (0);
+       gsyst->SetLineColor (kWhite);
+       if (_BandError != 0x0) {
+        _BandError -> SetFillColor (12);
+        _BandError -> SetFillStyle (3345);
+        _BandError -> SetMarkerSize (0);
+        _BandError -> SetLineWidth (0);
+        _BandError -> SetLineColor (kWhite);
+        _BandError -> Draw ("E2same");
+       }
+       else {
+        gsyst->Draw ("E2same");
+       }
+       //TExec *setex1 = new TExec ("setex1","gStyle->SetErrorX (0)");
+       //setex1->Draw ();
+      }
       if (_hist[iHWW] && _isHWWOverlaid == false) _hist[iHWW]->Draw ("hist,same");
-    
       //---- draw signal samples
-      for (int i = 0 ; i < nSamples; i++) {
-          if (_sigHist[i]) _hist[i]->Rebin(rebin);
-          if (_sigHist[i]) _hist[i]->Draw ("hist,same") ;
-        } //---- draw signal samples
-
-      if (_data) 
+      for (int i = 0 ; i < nSamples; i++)
+      {
+       if (_sigHist[i]) _hist[i]->Rebin(rebin);
+       if (_sigHist[i]) _hist[i]->Draw ("hist,same") ;
+      } //---- draw signal samples
+      if (_data)
+      {
+       bool plotCorrectErrorBars = true;
+       if (plotCorrectErrorBars == true)
+       {
+        TGraphAsymmErrors * g = new TGraphAsymmErrors (_data);
+        for (int i = 0; i < g->GetN (); ++i)
         {
-          bool plotCorrectErrorBars = true;
-          if (plotCorrectErrorBars == true) 
-            {
-              TGraphAsymmErrors * g = new TGraphAsymmErrors (_data);
-              for (int i = 0; i < g->GetN (); ++i) 
-                {
-                  double N = g->GetY ()[i];
-                  double alpha= (1-0.6827);
-                  double L = (N==0) ? 0  : (ROOT::Math::gamma_quantile (alpha/2,N,1.));
-                  double U = (N==0) ? ( ROOT::Math::gamma_quantile_c (alpha,N+1,1.) ) :
-                                       ( ROOT::Math::gamma_quantile_c (alpha/2,N+1,1.) );
-                  g->SetPointEYlow (i,double (N)-L);
-                  if (N > 0) g->SetPointEYhigh (i, U-double (N));
-                  else  g->SetPointEYhigh (i, 1.14); // --> bayesian interval Poisson with 0 events observed    
-// 		    g->SetPointEYhigh (i, 0.0);
-                }
-              g->Draw ("P");
-            }
-          else {
-              _data->Draw ("ep,same");
-            }
+         double N = g->GetY ()[i];
+         double alpha= (1-0.6827);
+         double L = (N==0) ? 0 : (ROOT::Math::gamma_quantile (alpha/2,N,1.));
+         double U = (N==0) ? ( ROOT::Math::gamma_quantile_c (alpha,N+1,1.) ) :
+         ( ROOT::Math::gamma_quantile_c (alpha/2,N+1,1.) );
+         g->SetPointEYlow (i,double (N)-L);
+         if (N > 0) g->SetPointEYhigh (i, U-double (N));
+         else g->SetPointEYhigh (i, 1.14); // --> bayesian interval Poisson with 0 events observed
+         // g->SetPointEYhigh (i, 0.0);
         }
-          
+        g->Draw ("P");
+       }
+       else {
+        _data->Draw ("ep,same");
+       }
+      }
       hstack->SetTitle ("");
-
       Float_t theMax = hstack->GetMaximum ();
       Float_t theMin = hstack->GetMinimum ();
-
-      if (_hist[iHWW]) {
-          if (_hist[iHWW]->GetMaximum () > theMax) theMax = _hist[iHWW]->GetMaximum ();
-          if (_hist[iHWW]->GetMinimum () < theMin) theMin = _hist[iHWW]->GetMinimum ();
-      }
-
-      if (_data) {
-          Float_t dataMax = GetMaximumIncludingErrors (_data);
-          if (dataMax > theMax) theMax = dataMax;
-      }
-
-      if (gPad->GetLogy ()) {
-          hstack->SetMaximum (18 * theMax);
-          hstack->SetMinimum (0.10);
-      } else {
-        hstack->SetMaximum (1.75 * theMax);
-//         hstack->SetMaximum (1.55 * theMax);
-      }
-
-      if     (_breakdown == 1) {
-          THStackAxisFonts (hstack, "y", "Events / bin");
-          hstack->GetHistogram ()->LabelsOption ("v");
-          if (_units.Sizeof () != 1) {
-           THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));           
-          }
-      } 
-      else if(_breakdown == 2) {
-          THStackAxisFonts (hstack, "y", "S/(S+B) weighted events / bin");
-          hstack->GetHistogram ()->LabelsOption ("v");
-          if (_units.Sizeof () != 1) {
-           THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));           
-          }
-      } 
-      else {
-          THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));
-          if (_units.Sizeof () == 1) {
-              THStackAxisFonts (hstack, "x", _xLabel.Data ());
-//               THStackAxisFonts (hstack, "y", "Events / bin");
-              THStackAxisFonts (hstack, "y", TString::Format ("Events / %.1f", _data->GetBinWidth (0)));
-          } else {
-              THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));
-              if (_data->GetBinWidth (0) < 1) THStackAxisFonts (hstack, "y", TString::Format ("Events / %.1f %s", _data->GetBinWidth (0),_units.Data ()));
-              else                            THStackAxisFonts (hstack, "y", TString::Format ("Events / %.0f %s", _data->GetBinWidth (0),_units.Data ()));
-          }
-      }
-
-      //---- plotting the legend
-      //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-      
-      TString signalLegendRepr = "l" ;
-      
-      int j=0;
-      
-      // data: check if there is "data" (just once, j==0)
-      if (_data ) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _data,          " data",    "lp"); j++; }
-      
-      if (_hist[iHWW      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iHWW      ], _sampleLabel [iHWW      ], signalLegendRepr); j++; } 
-      else if (_hist[iggH      ]==0x0 && _hist[iVBF      ]==0x0 && _hist[iVH      ]==0x0) {  
-          //---- do nothing : there is no signal at all!
-      }
-      else if (_hist[iVH]!=0x0 && _hist[iggH]==0x0 && _hist[iVBF]==0x0){
-       //---- if there is only VH (3l case)
-       if (_hist[iVH       ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iVH       ], _sampleLabel [iVH       ], signalLegendRepr); j++; j++; j++; }
-      }
-      else {
-       //---- or HWW all together xor separate components
-       if (_hist[iggH      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iggH      ], _sampleLabel [iggH      ], signalLegendRepr); j++; } else j++;
-       if (_hist[iVBF      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iVBF      ], _sampleLabel [iVBF      ], signalLegendRepr); j++; } else j++;
-       if (_hist[iVH       ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iVH       ], _sampleLabel [iVH       ], signalLegendRepr); j++; } else j++;
-      }
-      
-      int counterPosition = j;
-      for ( j=(nSamples-1); j>=0 ; j--) {
-//        for (j=0; j < nSamples ; j++) {
-       
-//        std::cout << " j = " << j << " counterPosition = " << counterPosition << std::endl;
-       int jSample = _position.at(j);
-//        std::cout << " jSample = " << jSample << " j = " << j << " counterPosition = " << counterPosition << std::endl;
-       // signals: check if they are signals: signals must be plotted on top!
-       if (jSample==iHWW || jSample==iggH || jSample==iVBF || jSample==iVH) continue;
-
-       // backgrounds
-       if (_hist[jSample      ]) { DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, _hist[jSample      ], _sampleLabel [jSample      ], "f" ); counterPosition++;}
-       
-      }
-      
-      std::cout << " ended " << std::endl;
-      
-//      //---- the "CMS" flag
-//      TPaveText *pt = new TPaveText (0.61,0.8337762,0.9408059,0.8862238,"blNDC");
-//      pt->SetName ("title");
-//      pt->SetBorderSize (0);
-//      pt->SetFillColor (10);
-//      pt->SetTextFont (42);
-//      pt->SetTextSize (_tsize);
-//      pt->AddText ("CMS");
-//      pt->Draw ();
- 
-      double dist = 0.05 ;
-      int distTimes = 0 ;
-      double xstart = 0.9 ;
-      double ystart = 0.85 ;
-  
-//      //---- the CMS label
-//      TLatex* flag_cms = new TLatex (xstart, ystart - dist * distTimes++, TString ("#bf{CMS}"));
-//      flag_cms->SetNDC ();
-//      flag_cms->SetTextAlign (32);
-//      flag_cms->SetTextFont (42);
-//      flag_cms->SetTextSize (_tsize);
-//      flag_cms->Draw ("same");
-      
-      //---- the lumi label 
-//      if( _lumi < 21. ) { // don't draw this for 7+8 TeV plots 
-//          TLatex* flag_lumi = new TLatex (xstart, ystart - dist * distTimes++, TString::Format ("L = %.1f fb#lower[0.3]{^{-1}}", _lumi)) ;
-//          flag_lumi->SetNDC ();
-//          flag_lumi->SetTextAlign (32);
-//          flag_lumi->SetTextFont (42);
-//          flag_lumi->SetTextSize (_tsize);
-//          flag_lumi->Draw ("same");
-//      } 
-
-      //---- the lumi label
-      for (unsigned int i = 0 ; i < _extraLabels.size () ; ++i) 
-        {
-          TLatex* flag_extra = new TLatex (xstart, ystart - dist * distTimes++, _extraLabels.at (i)) ;
-          flag_extra->SetNDC ();
-          flag_extra->SetTextAlign (32);
-          flag_extra->SetTextFont (42);
-          flag_extra->SetTextSize (_tsize);
-          flag_extra->Draw ("same");
-        }
-
-      TLatex * CMSLabel = new TLatex (0.18, 0.93, "CMS");
-      CMSLabel->SetNDC ();
-      CMSLabel->SetTextAlign (10);
-      CMSLabel->SetTextFont (61);
-      CMSLabel->SetTextSize (_tsize);
-      CMSLabel->Draw ("same") ;
-
-      TLatex * CMSLabelPreliminary = new TLatex (0.25, 0.92, "Preliminary");
-      CMSLabelPreliminary->SetNDC ();
-      CMSLabelPreliminary->SetTextAlign (10);
-      CMSLabelPreliminary->SetTextFont (52);
-      CMSLabelPreliminary->SetTextSize (_tsize);
-      CMSLabelPreliminary->Draw ("same") ;
-      
-      
-      _lumiLabel->Draw ("same") ;
-      return hstack->GetHistogram () ;
+    
+    if (_hist[iHWW]) {
+     if (_hist[iHWW]->GetMaximum () > theMax) theMax = _hist[iHWW]->GetMaximum ();
+     if (_hist[iHWW]->GetMinimum () < theMin) theMin = _hist[iHWW]->GetMinimum ();
     }
+    
+    if (_data) {
+     Float_t dataMax = GetMaximumIncludingErrors (_data);
+     if (dataMax > theMax) theMax = dataMax;
+    }
+    
+    if (gPad->GetLogy ()) {
+     hstack->SetMaximum (18 * theMax);
+     hstack->SetMinimum (0.10);
+    } else {
+     hstack->SetMaximum (1.75 * theMax);
+     //         hstack->SetMaximum (1.55 * theMax);
+    }
+    
+    if     (_breakdown == 1) {
+     THStackAxisFonts (hstack, "y", "Events / bin");
+     hstack->GetHistogram ()->LabelsOption ("v");
+     if (_units.Sizeof () != 1) {
+      THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));           
+     }
+    } 
+    else if(_breakdown == 2) {
+     THStackAxisFonts (hstack, "y", "S/(S+B) weighted events / bin");
+     hstack->GetHistogram ()->LabelsOption ("v");
+     if (_units.Sizeof () != 1) {
+      THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));           
+     }
+    } 
+    else {
+     THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));
+     if (_units.Sizeof () == 1) {
+      THStackAxisFonts (hstack, "x", _xLabel.Data ());
+      //               THStackAxisFonts (hstack, "y", "Events / bin");
+      THStackAxisFonts (hstack, "y", TString::Format ("Events / %.1f", _data->GetBinWidth (0)));
+     } else {
+      THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));
+      if (_data->GetBinWidth (0) < 1) THStackAxisFonts (hstack, "y", TString::Format ("Events / %.1f %s", _data->GetBinWidth (0),_units.Data ()));
+      else                            THStackAxisFonts (hstack, "y", TString::Format ("Events / %.0f %s", _data->GetBinWidth (0),_units.Data ()));
+     }
+    }
+    
+    //---- plotting the legend
+    //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+    
+    TString signalLegendRepr = "l" ;
+    
+    int j=0;
+    
+    // data: check if there is "data" (just once, j==0)
+    if (_data ) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _data,          " data",    "lp"); j++; }
+    
+    if (_hist[iHWW      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iHWW      ], _sampleLabel [iHWW      ], signalLegendRepr); j++; } 
+    else if (_hist[iggH      ]==0x0 && _hist[iVBF      ]==0x0 && _hist[iVH      ]==0x0) {  
+     //---- do nothing : there is no signal at all!
+    }
+    else if (_hist[iVH]!=0x0 && _hist[iggH]==0x0 && _hist[iVBF]==0x0){
+     //---- if there is only VH (3l case)
+     if (_hist[iVH       ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iVH       ], _sampleLabel [iVH       ], signalLegendRepr); j++; j++; j++; }
+    }
+    else {
+     //---- or HWW all together xor separate components
+     if (_hist[iggH      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iggH      ], _sampleLabel [iggH      ], signalLegendRepr); j++; } else j++;
+     if (_hist[iVBF      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iVBF      ], _sampleLabel [iVBF      ], signalLegendRepr); j++; } else j++;
+     if (_hist[iVH       ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iVH       ], _sampleLabel [iVH       ], signalLegendRepr); j++; } else j++;
+    }
+    
+    int counterPosition = j;
+    for ( j=(nSamples-1); j>=0 ; j--) {
+     //        for (j=0; j < nSamples ; j++) {
+     
+     //        std::cout << " j = " << j << " counterPosition = " << counterPosition << std::endl;
+     int jSample = _position.at(j);
+     //        std::cout << " jSample = " << jSample << " j = " << j << " counterPosition = " << counterPosition << std::endl;
+     // signals: check if they are signals: signals must be plotted on top!
+     if (jSample==iHWW || jSample==iggH || jSample==iVBF || jSample==iVH) continue;
+     
+     // backgrounds
+     if (_hist[jSample      ]) { DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, _hist[jSample      ], _sampleLabel [jSample      ], "f" ); counterPosition++;}
+     
+    }
+    
+    std::cout << " ended " << std::endl;
+    
+    //      //---- the "CMS" flag
+    //      TPaveText *pt = new TPaveText (0.61,0.8337762,0.9408059,0.8862238,"blNDC");
+    //      pt->SetName ("title");
+    //      pt->SetBorderSize (0);
+    //      pt->SetFillColor (10);
+    //      pt->SetTextFont (42);
+    //      pt->SetTextSize (_tsize);
+    //      pt->AddText ("CMS");
+    //      pt->Draw ();
+    
+    double dist = 0.05 ;
+    int distTimes = 0 ;
+    double xstart = 0.9 ;
+    double ystart = 0.85 ;
+    
+    //      //---- the CMS label
+    //      TLatex* flag_cms = new TLatex (xstart, ystart - dist * distTimes++, TString ("#bf{CMS}"));
+    //      flag_cms->SetNDC ();
+    //      flag_cms->SetTextAlign (32);
+    //      flag_cms->SetTextFont (42);
+    //      flag_cms->SetTextSize (_tsize);
+    //      flag_cms->Draw ("same");
+    
+    //---- the lumi label 
+    //      if( _lumi < 21. ) { // don't draw this for 7+8 TeV plots 
+    //          TLatex* flag_lumi = new TLatex (xstart, ystart - dist * distTimes++, TString::Format ("L = %.1f fb#lower[0.3]{^{-1}}", _lumi)) ;
+    //          flag_lumi->SetNDC ();
+    //          flag_lumi->SetTextAlign (32);
+    //          flag_lumi->SetTextFont (42);
+    //          flag_lumi->SetTextSize (_tsize);
+    //          flag_lumi->Draw ("same");
+    //      } 
+    
+    //---- the lumi label
+    for (unsigned int i = 0 ; i < _extraLabels.size () ; ++i) {
+     TLatex* flag_extra = new TLatex (xstart, ystart - dist * distTimes++, _extraLabels.at (i)) ;
+     flag_extra->SetNDC ();
+     flag_extra->SetTextAlign (32);
+     flag_extra->SetTextFont (42);
+     flag_extra->SetTextSize (_tsize);
+     flag_extra->Draw ("same");
+    }
+    
+    TLatex * CMSLabel = new TLatex (0.18, 0.93, "CMS");
+    CMSLabel->SetNDC ();
+    CMSLabel->SetTextAlign (10);
+    CMSLabel->SetTextFont (61);
+    CMSLabel->SetTextSize (_tsize);
+    CMSLabel->Draw ("same") ;
+    
+    TLatex * CMSLabelPreliminary = new TLatex (0.25, 0.92, "Preliminary");
+    CMSLabelPreliminary->SetNDC ();
+    CMSLabelPreliminary->SetTextAlign (10);
+    CMSLabelPreliminary->SetTextFont (52);
+    CMSLabelPreliminary->SetTextSize (_tsize);
+    CMSLabelPreliminary->Draw ("same") ;
+    
+    
+    _lumiLabel->Draw ("same") ;
+    return hstack->GetHistogram () ;
+ }
 
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
