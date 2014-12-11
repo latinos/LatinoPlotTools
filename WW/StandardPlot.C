@@ -304,29 +304,79 @@ void SetColorsAndLabels ()
 
   void setSignalZoom (const int zoom) { _signalZoom = zoom ; }
 
+  
+  
+  // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+  // ---- fold underflow and overflow bin into bin in visible range ----
+  
+  void FoldOverFlowBin (TH1* histo) {
+   UInt_t nx = histo->GetNbinsX();
+   double cont = histo->GetBinContent(nx) + histo->GetBinContent(nx+1) ;
+   double err = sqrt( histo->GetBinError(nx)*histo->GetBinError(nx) + histo->GetBinError(nx+1)*histo->GetBinError(nx+1) ) ;
+   histo->SetBinContent(nx,cont);
+   histo->SetBinError(nx,err);
+   histo->SetBinContent(nx+1,0.);
+   histo->SetBinError(nx+1,0.);
+  }
 
+  void FoldUnderFlowBin (TH1* histo) {
+   double cont = histo->GetBinContent(0) + histo->GetBinContent(1) ;
+   double err = sqrt( histo->GetBinError(0)*histo->GetBinError(0) + histo->GetBinError(1)*histo->GetBinError(1) ) ;
+   histo->SetBinContent(1,cont);
+   histo->SetBinError(1,err);
+   histo->SetBinContent(0,0.);
+   histo->SetBinError(0,0.);
+  }
+  
+  void FoldOverFlowUnderFlowBin (TH1* histo) {
+   std::cout << " Folding :: " << histo->GetTitle() << std::endl;
+   FoldOverFlowBin(histo);
+   FoldUnderFlowBin(histo);
+  }
+   
+      
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
-
-  TH1* DrawAndRebinTo (const int &rebinTo) 
-    {
-      if (rebinTo == 0) return Draw ();
-      int rebin = 0, nbins = 0;
-      for (int i=0; i<nSamples; i++) {
-  
-          // in case the user doesn't set it
-          if ( !_hist[i] ) continue;
-  
-          nbins = _hist[i]->GetNbinsX ();
-      }
-      if (nbins == 0) return Draw ();
-  
-      rebin = nbins / rebinTo;
-      while (nbins % rebin != 0) rebin--;
-      return Draw (rebin);
+   
+   
+   void FoldOverFlowUnderFlowBin () {
+    for (int itemp = 0 ; itemp < nSamples ; itemp++) {
+     int i = _position.at(itemp);
+     if (_bkgHist[i] == 0) {
+      if (_sigHist[i] == 0) continue ;
+     }  
+     
+     if (_hist[i] != 0)
+     {
+      FoldOverFlowUnderFlowBin(_hist[i]);
+     }
+    }
+    
+    if (_data) FoldOverFlowUnderFlowBin(_data);
+    
    }
-
-
+   
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+   
+   
+   TH1* DrawAndRebinTo (const int &rebinTo) 
+   {
+    if (rebinTo == 0) return Draw ();
+    int rebin = 0, nbins = 0;
+    for (int i=0; i<nSamples; i++) {
+     
+     // in case the user doesn't set it
+     if ( !_hist[i] ) continue;
+     
+     nbins = _hist[i]->GetNbinsX ();
+    }
+    if (nbins == 0) return Draw ();
+    
+    rebin = nbins / rebinTo;
+    while (nbins % rebin != 0) rebin--;
+    return Draw (rebin);
+   }
+   
+   
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 
@@ -451,8 +501,7 @@ void SetColorsAndLabels ()
       if (_hist[iHWW] && _isHWWOverlaid == false) _hist[iHWW]->Draw ("hist,same");
     
       //---- draw signal samples
-      for (int i = 0 ; i < nSamples; i++) 
-        {
+      for (int i = 0 ; i < nSamples; i++) {
           if (_sigHist[i]) _hist[i]->Rebin(rebin);
           if (_sigHist[i]) _hist[i]->Draw ("hist,same") ;
         } //---- draw signal samples
