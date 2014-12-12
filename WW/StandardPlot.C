@@ -102,6 +102,27 @@ void AxisFonts (TAxis*  axis,
     axis->SetTitle (title);
 }
 
+void Pad2TAxis(TH1* hist, TString xtitle, TString ytitle) {
+ TAxis* xaxis = (TAxis*)hist->GetXaxis();
+ TAxis* yaxis = (TAxis*)hist->GetYaxis();
+ xaxis->SetLabelFont ( 42);
+ xaxis->SetLabelOffset( 0.025);
+ xaxis->SetLabelSize ( 0.1);
+ xaxis->SetNdivisions ( 505);
+ xaxis->SetTitle (xtitle);
+ xaxis->SetTitleFont ( 42);
+ xaxis->SetTitleOffset( 1.35);
+ xaxis->SetTitleSize ( 0.11);
+ yaxis->CenterTitle ( );
+ yaxis->SetLabelFont ( 42);
+ yaxis->SetLabelOffset( 0.02);
+ yaxis->SetLabelSize ( 0.1);
+ yaxis->SetNdivisions ( 505);
+ yaxis->SetTitle (ytitle);
+ yaxis->SetTitleFont ( 42);
+ yaxis->SetTitleOffset( .6);
+ yaxis->SetTitleSize ( 0.11);
+}
 
 //------------------------------------------------------------------------------
 // THStackAxisFonts

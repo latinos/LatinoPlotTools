@@ -413,8 +413,9 @@ finalPlot (int nsel             = 0,
   TH1F* hHWWoff  = (TH1F*) hggHoff->Clone ("hggHoff");
   if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
   myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
-  myPlot.setIsHWWOverlaid(true);
-//    myPlot.setBreakdown(2);
+//   myPlot.setIsHWWOverlaid(true);
+  myPlot.setIsHWWOverlaid(false);
+  //    myPlot.setBreakdown(2);
   
   TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
   if (hqqH != 0) hHWW->Add (hqqH) ;
@@ -500,18 +501,46 @@ finalPlot (int nsel             = 0,
  TPad* pad2;
  
  if (doDataMCRatio) {
-  pad1 = new TPad("pad1", "pad1", 0, 0.25, 1, 1);
-  pad1->SetTopMargin (0.05);
-  pad1->SetBottomMargin(0.08);
-  pad1->SetRightMargin(0.05);
-  pad1->SetLeftMargin(0.15);
+//   pad1 = new TPad("pad1", "pad1", 0.00, 0.20, 1.00, 1.00);
+//   pad1->SetTopMargin (0.05);
+//   pad1->SetBottomMargin(0.08);
+//   pad1->SetRightMargin(0.05);
+//   pad1->SetLeftMargin(0.15);
+//   pad1->Draw();
+//   pad2 = new TPad("pad2", "pad2", 0.00, 0.00, 1.00, 0.20);
+//   pad2->SetTopMargin (-0.08);
+//   pad2->SetBottomMargin(0.35);
+//   pad2->SetRightMargin(0.05);
+//   pad2->SetLeftMargin(0.15);
+//   pad2->Draw();
+  
+  
+//   pad1 = new TPad("pad1", "pad1", 0, 0.20, 1, 1);
+  pad1 = new TPad("pad1","pad1",0,1-0.714609572,1,1);
+  pad1->SetTopMargin(0.0983606557);
+  pad1->SetBottomMargin(0.005);
+//     pad1->SetTopMargin (0.05);
+//   pad1->SetBottomMargin(0.02);
+//   pad1->SetRightMargin(0.05);
+//   pad1->SetLeftMargin(0.15);
   pad1->Draw();
-  pad2 = new TPad("pad2", "pad2", 0, 0, 1, 0.3);
-  pad2->SetTopMargin (-0.08);
-  pad2->SetBottomMargin(0.35);
-  pad2->SetRightMargin(0.05);
-  pad2->SetLeftMargin(0.15);
+  pad2 = new TPad("pad2","pad2",0,0,1,1-0.74);
+//   pad2 = new TPad("pad2", "pad2", 0, 0, 1, 0.25);
+  pad2->SetTopMargin(0.000);
+//   pad2->SetTopMargin(0.075);
+  pad2->SetBottomMargin(0.392156863);
+  //   pad2->SetTopMargin (-0.03);
+//   pad2->SetBottomMargin(0.35);
+//   pad1->SetRightMargin(0.05);
+//   pad1->SetLeftMargin(0.15);
   pad2->Draw();
+  
+  
+  pad1->Modified();
+  pad1->Update();
+  pad2->Modified();
+  pad2->Update();
+  
   
   if(isLogY == true) pad1->SetLogy();
  }
@@ -533,6 +562,7 @@ finalPlot (int nsel             = 0,
  std::cout << "done" << std::endl ;
  c1->GetFrame()->DrawClone();
  
+ 
  //hggH->Rebin(ReBin);
  //hqqH->Rebin(ReBin);
  //hVH ->Rebin(ReBin);
@@ -541,22 +571,12 @@ finalPlot (int nsel             = 0,
  //hVH ->Draw("same,hist");
  //std::cout << hggH->GetSumOfWeights() << " " << hqqH->GetSumOfWeights() << " " << hVH->GetSumOfWeights() << std::endl;
  
- char CommandToExec[300];
- sprintf(CommandToExec,"mkdir -p plots");
- gSystem->Exec(CommandToExec);  
- 
- char myOutputFile[300];
- sprintf(myOutputFile,"plots/%s.eps",outputName);
- c1->SaveAs(myOutputFile);
- sprintf(myOutputFile,"plots/%s.png",outputName);
- c1->SaveAs(myOutputFile);
- sprintf(myOutputFile,"plots/%s.pdf",outputName);
- c1->SaveAs(myOutputFile);
+  
  
  if(doDataMCRatio == true){
   // Data - MC
   //--------------------------------------------------------------------------
-  TCanvas* c2 = new TCanvas("c2", "c2", 575, 10, 550, 600);
+//   TCanvas* c2 = new TCanvas("c2", "c2", 575, 10, 550, 600);
   
   TH1F* dt = (TH1F*)hData->Clone();
   TH1F* mc = (TH1F*)hWW->Clone();
@@ -617,7 +637,7 @@ finalPlot (int nsel             = 0,
   }
   printf("data: %f mc: %f -> data/mc = %f\n",sum[0],sum[1],sum[0]/sum[1]);
   
-  diff->Draw();
+//   diff->Draw();
   //hHWW->Rebin(ReBin);
   //hHWW->Draw("same,hist");
   
@@ -636,35 +656,68 @@ finalPlot (int nsel             = 0,
   AxisFonts((TAxis*)diff->GetXaxis(), "x", XTitle);
   AxisFonts((TAxis*)diff->GetYaxis(), "y", "data / MC");
   
-  TLine* oneLine = new TLine(diff->GetXaxis()->GetXmin(), 0,
-                             diff->GetXaxis()->GetXmax(), 0);
+  TLine* oneLine = new TLine(diff->GetXaxis()->GetXmin(), 1, diff->GetXaxis()->GetXmax(), 1);
   
   oneLine->SetLineStyle(3);
   oneLine->SetLineWidth(3);
   
-  oneLine->Draw("same");
+//   oneLine->Draw("same");
   
   diff->SetMarkerStyle(kFullCircle);
   diff->SetLineWidth(0);
   diff->SetFillColor(kGray+1);
   diff->SetFillStyle(1001);
-  diff->Draw("AE2,same"); 
-  diff->Draw("sameaxis");
-  diff->Draw("same");
+//   diff->Draw("AE2,same"); 
+//   diff->Draw("sameaxis");
+//   diff->Draw("same");
   
-  c2->GetFrame()->DrawClone();
+//   c2->GetFrame()->DrawClone();
   
   
   
-  pad2->cd();
+  //   c2->Modified();
+  //   c2->Update();
+  
+  
+  pad2->cd()->SetGrid();
+  TLine* oneLine2 = new TLine(diff->GetXaxis()->GetXmin(), 1,  diff->GetXaxis()->GetXmax(), 1);
+  oneLine2->SetLineStyle(3);
+  oneLine2->SetLineWidth(3);
+  Pad2TAxis(diff, XTitle, "data / MC");
+  
   diff->Draw();
-  oneLine->Draw("same");
+  oneLine2->Draw("same");
   diff->Draw("AE2,same"); 
   diff->Draw("sameaxis");
   diff->Draw("same");
+
   
+  c1->cd();
+  c1->Update();
+  c1->Modified();
   
+ 
+  pad1->Update();
+  pad1->Modified();
   
+  pad2->Update();
+  pad2->Modified();
   
+//   gPad->WaitPrimitive();
  }
+ 
+ 
+ char CommandToExec[300];
+ sprintf(CommandToExec,"mkdir -p plots");
+ gSystem->Exec(CommandToExec);  
+ 
+ char myOutputFile[300];
+ sprintf(myOutputFile,"plots/%s.eps",outputName);
+ c1->SaveAs(myOutputFile);
+ sprintf(myOutputFile,"plots/%s.png",outputName);
+ c1->SaveAs(myOutputFile);
+ sprintf(myOutputFile,"plots/%s.pdf",outputName);
+ c1->SaveAs(myOutputFile);
+ 
+ 
 }
