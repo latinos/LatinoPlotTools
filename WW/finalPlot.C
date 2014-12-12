@@ -388,12 +388,14 @@ finalPlot (int nsel             = 0,
  else if (nsel == 12) {
   std::cout << "nsel = " << nsel << ", Higgs width analysis plots: control plots" << std::endl ;
   
-//   hWJets->Scale(1./ 19.4);
-  
-  if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
-  if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
-  if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
-//   if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     AddNuisance(0.10, (TH1F*)hTop  ->Clone("hTop")));
+//   if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      (TH1F*)hWW   ->Clone("hWW"));
+  if(hWW->GetSumOfWeights()       > 0) myPlot.setMCHist(iWW,      AddNuisance(0.10,(TH1F*)hWW   ->Clone("hWW")));
+
+//   if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   (TH1F*)hZJets->Clone("hZJets"));
+  if(hZJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iZJets,   AddNuisance(0.30,(TH1F*)hZJets->Clone("hZJets")));
+
+//   if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     (TH1F*)hTop  ->Clone("hTop"));
+  if(hTop->GetSumOfWeights()      > 0) myPlot.setMCHist(iTop,     AddNuisance(0.10, (TH1F*)hTop  ->Clone("hTop")));
   
   
 // //   if(hVVandVVV->GetSumOfWeights() > 0) myPlot.setMCHist(iVV,      (TH1F*)hVV   ->Clone("hVV")); 
@@ -402,9 +404,11 @@ finalPlot (int nsel             = 0,
 //   if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   (TH1F*)hWJets->Clone("hWJets"));
   if(hWJets->GetSumOfWeights()    > 0) myPlot.setMCHist(iWJets,   AddNuisance(0.36, (TH1F*)hWJets->Clone("hWJets")));
 
-  if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
+//   if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  (TH1F*)hVg    ->Clone("hVg")); 
+  if(hVg->GetSumOfWeights()       > 0) myPlot.setMCHist(iWgamma,  AddNuisance(0.50,(TH1F*)hVg    ->Clone("hVg"))); 
   // --> Vg means Zgamma + Wgamma + Wgamma* 
-    if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
+//   if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    (TH1F*)hggWW  ->Clone("hggWW")); 
+  if(hggWW->GetSumOfWeights()     > 0) myPlot.setMCHist(iggWW,    AddNuisance(0.15,(TH1F*)hggWW  ->Clone("hggWW"))); 
   
   TH1F* hHWWoff  = (TH1F*) hggHoff->Clone ("hggHoff");
   if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
@@ -486,7 +490,33 @@ finalPlot (int nsel             = 0,
  
  std::cout << "printout" << std::endl ;
  
+ //---- increase the Y length to get 20% size with the ratio plot
+ if (doDataMCRatio) {
+  YCanvas *= 1.2;
+ }
+ 
  TCanvas* c1 = new TCanvas("c1", "c1", XCanvas, YCanvas);
+ TPad* pad1;
+ TPad* pad2;
+ 
+ if (doDataMCRatio) {
+  pad1 = new TPad("pad1", "pad1", 0, 0.25, 1, 1);
+  pad1->SetTopMargin (0.05);
+  pad1->SetBottomMargin(0.08);
+  pad1->SetRightMargin(0.05);
+  pad1->SetLeftMargin(0.15);
+  pad1->Draw();
+  pad2 = new TPad("pad2", "pad2", 0, 0, 1, 0.3);
+  pad2->SetTopMargin (-0.08);
+  pad2->SetBottomMargin(0.35);
+  pad2->SetRightMargin(0.05);
+  pad2->SetLeftMargin(0.15);
+  pad2->Draw();
+  
+  if(isLogY == true) pad1->SetLogy();
+ }
+ 
+ 
  
  if(isLogY == true) c1->SetLogy();
  
@@ -495,6 +525,10 @@ finalPlot (int nsel             = 0,
  
  
  std::cout << "call the draw method of the plotting tool" << std::endl ;
+ if (doDataMCRatio) { 
+  pad1->cd();
+ }
+ 
  myPlot.Draw(ReBin);  // Can pass a rebin 
  std::cout << "done" << std::endl ;
  c1->GetFrame()->DrawClone();
@@ -619,5 +653,18 @@ finalPlot (int nsel             = 0,
   diff->Draw("same");
   
   c2->GetFrame()->DrawClone();
+  
+  
+  
+  pad2->cd();
+  diff->Draw();
+  oneLine->Draw("same");
+  diff->Draw("AE2,same"); 
+  diff->Draw("sameaxis");
+  diff->Draw("same");
+  
+  
+  
+  
  }
 }
