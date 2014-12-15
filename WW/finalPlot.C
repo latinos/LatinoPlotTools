@@ -546,8 +546,9 @@ finalPlot (int nsel             = 0,
  }
  
  
- 
- if(isLogY == true) c1->SetLogy();
+ if (!doDataMCRatio){
+  if(isLogY == true) c1->SetLogy();
+ }
  
  //---- fold the underflow and overflow bin
  myPlot.FoldOverFlowUnderFlowBin();
