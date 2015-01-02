@@ -1,28 +1,47 @@
 # 
+# 8 TeV
 # 
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_0_1.root\",\"mllmth_0jet_onshell_8TeV\",0,125,19.4,0,1,0,8,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_0_2.root\",\"mllmth_0jet_offshell_8TeV\",0,125,19.4,0,1,0,0,7,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_0_0.root\",\"mllmth_0jet_onoffshell_8TeV\",0,125,19.4,0,1,0,25,22,800,600\)
 # 
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_0_1.root\",\"mllmth_0jet_onshell_8TeV\",0,125,19.4,0,1,0,33,22,800,600\)
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_0_2.root\",\"mllmth_0jet_offshell_8TeV\",0,125,19.4,0,1,0,33,22,800,600\)
-root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_0_0.root\",\"mllmth_0jet_onoffshell_8TeV\",0,125,19.4,0,1,0,33,22,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_1.root\",\"mllmth_1jet_onshell_8TeV\",0,125,19.4,0,1,0,8,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_2.root\",\"mllmth_1jet_offshell_8TeV\",0,125,19.4,0,1,0,0,11,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_0.root\",\"mllmth_1jet_onoffshell_8TeV\",0,125,19.4,0,1,0,36,25,800,600\)
+#
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_1.root\",\"mllmthmva_0jet_onshell_8TeV\",0,125,19.4,0,1,0,7,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_2.root\",\"mllmthmva_0jet_offshell_8TeV\",0,125,19.4,0,1,0,0,9,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_0.root\",\"mllmthmva_0jet_onoffshell_8TeV\",0,125,19.4,0,1,0,51,20,800,600\)
 # 
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_1.root\",\"mllmthmva_1jet_onshell_8TeV\",0,125,19.4,0,1,0,20,10,800,600\)
-root -l -q finalPlot.C+\(11,1,\"mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_2.root\",\"mllmthmva_1jet_offshell_8TeV\",0,125,19.4,0,1,0,20,10,800,600\)
-root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_0.root\",\"mllmthmva_1jet_onoffshell_8TeV\",0,125,19.4,0,1,0,20,10,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_1.root\",\"mllmthmva_1jet_onshell_8TeV\",0,125,19.4,0,1,0,6,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_2.root\",\"mllmthmva_1jet_offshell_8TeV\",0,125,19.4,0,1,0,0,8,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_0.root\",\"mllmthmva_1jet_onoffshell_8TeV\",0,125,19.4,0,1,0,30,8,800,600\)
 # 
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_1.root\",\"mllmthmva_0jet_onshell_8TeV\",0,125,19.4,0,1,0,41,22,800,600\)
-root -l -q finalPlot.C+\(11,1,\"mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_2.root\",\"mllmthmva_0jet_offshell_8TeV\",0,125,19.4,0,1,0,41,22,800,600\)
-root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_0.root\",\"mllmthmva_0jet_onoffshell_8TeV\",0,125,19.4,0,1,0,41,22,800,600\)
-# 
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_1.root\",\"mllmth_1jet_onshell_8TeV\",0,125,19.4,0,1,0,26,26,800,600\)
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_2.root\",\"mllmth_1jet_offshell_8TeV\",0,125,19.4,0,1,0,26,26,800,600\)
-root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_0.root\",\"mllmth_1jet_onoffshell_8TeV\",0,125,19.4,0,1,0,26,26,800,600\)
-# 
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_0_1.root\",\"mllmth_2jet_onshell_8TeV\",0,125,19.4,0,3,5,500,500\)
-root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_0_2.root\",\"mllmth_2jet_offshell_8TeV\",0,125,19.4,0,3,5,500,500\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_0_1.root\",\"mllmth_2jet_onshell_8TeV\",0,125,19.4,0,3,0,500,500\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_0_2.root\",\"mllmth_2jet_offshell_8TeV\",0,125,19.4,0,0,5,500,500\)
 root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_0_0.root\",\"mllmth_2jet_onoffshell_8TeV\",0,125,19.4,0,3,5,500,500\)
 # 
 # 
 # 
+# 
+# 7 TeV
+# 
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_1_1.root\",\"mllmth_0jet_onshell_7TeV\",0,125,19.4,0,1,0,4,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_1_2.root\",\"mllmth_0jet_offshell_7TeV\",0,125,19.4,0,1,0,0,4,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0_1_0.root\",\"mllmth_0jet_onoffshell_7TeV\",0,125,19.4,0,1,0,17,14,800,600\)
+# 
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_1_1.root\",\"mllmth_1jet_onshell_7TeV\",0,125,19.4,0,1,0,4,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_1_2.root\",\"mllmth_1jet_offshell_7TeV\",0,125,19.4,0,1,0,0,6,800,600\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_1_0.root\",\"mllmth_1jet_onoffshell_7TeV\",0,125,19.4,0,1,0,17,14,800,600\)
+#
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_1_1.root\",\"mllmth_2jet_onshell_7TeV\",0,125,19.4,0,2,0,500,500\)
+root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_1_2.root\",\"mllmth_2jet_offshell_7TeV\",0,125,19.4,0,0,3,500,500\)
+root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_1_0.root\",\"mllmth_2jet_onoffshell_7TeV\",0,125,19.4,0,2,3,500,500\)
+#
+#
+#
+#
+#
 # root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6.root\",\"mllmthmva_1jet\",0,125,19.4,0,1,0,20,10,800,600\)
 # root -l -q  finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4.root\",\"mllmthmva_0jet\",0,125,19.4,0,1,0,41,22,800,600\)
 # root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_0.root\",\"mllmth_0jet\",0,125,19.4,0,1,0,33,22,800,600\)
