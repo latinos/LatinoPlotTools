@@ -494,6 +494,10 @@ finalPlot (int nsel             = 0,
  //---- increase the Y length to get 20% size with the ratio plot
  if (doDataMCRatio) {
   YCanvas *= 1.2;
+  
+  gStyle->SetPadBottomMargin(0.20);
+  gStyle->SetPadTopMargin   (0.08);
+  gStyle->cd();
  }
  
  TCanvas* c1 = new TCanvas("c1", "c1", XCanvas, YCanvas);
@@ -501,38 +505,16 @@ finalPlot (int nsel             = 0,
  TPad* pad2;
  
  if (doDataMCRatio) {
-//   pad1 = new TPad("pad1", "pad1", 0.00, 0.20, 1.00, 1.00);
-//   pad1->SetTopMargin (0.05);
-//   pad1->SetBottomMargin(0.08);
-//   pad1->SetRightMargin(0.05);
-//   pad1->SetLeftMargin(0.15);
-//   pad1->Draw();
-//   pad2 = new TPad("pad2", "pad2", 0.00, 0.00, 1.00, 0.20);
-//   pad2->SetTopMargin (-0.08);
-//   pad2->SetBottomMargin(0.35);
-//   pad2->SetRightMargin(0.05);
-//   pad2->SetLeftMargin(0.15);
-//   pad2->Draw();
-  
   
 //   pad1 = new TPad("pad1", "pad1", 0, 0.20, 1, 1);
-  pad1 = new TPad("pad1","pad1",0,1-0.714609572,1,1);
-  pad1->SetTopMargin(0.0983606557);
+  pad1 = new TPad("pad1","pad1", 0, 1-0.72, 1, 1);
+  pad1->SetTopMargin(0.098);
   pad1->SetBottomMargin(0.005);
-//     pad1->SetTopMargin (0.05);
-//   pad1->SetBottomMargin(0.02);
-//   pad1->SetRightMargin(0.05);
-//   pad1->SetLeftMargin(0.15);
   pad1->Draw();
-  pad2 = new TPad("pad2","pad2",0,0,1,1-0.74);
-//   pad2 = new TPad("pad2", "pad2", 0, 0, 1, 0.25);
+
+  pad2 = new TPad("pad2","pad2",0,0,1,1-0.72);
   pad2->SetTopMargin(0.000);
-//   pad2->SetTopMargin(0.075);
-  pad2->SetBottomMargin(0.392156863);
-  //   pad2->SetTopMargin (-0.03);
-//   pad2->SetBottomMargin(0.35);
-//   pad1->SetRightMargin(0.05);
-//   pad1->SetLeftMargin(0.15);
+  pad2->SetBottomMargin(0.392);
   pad2->Draw();
   
   
