@@ -1,11 +1,17 @@
 void GoodStyle()
 {
-  TStyle* GloStyle;
-  GloStyle = gStyle;
+//   TStyle* GloStyle;
+//   GloStyle = gStyle;
 
+ 
+//  TStyle* GoodStyle = gStyle; //gROOT->GetStyle(); 
   TStyle* GoodStyle = new TStyle("GoodStyle", "GoodStyle");
-  gStyle = GoodStyle;
+//   gStyle = GoodStyle;
 
+//  TStyle* GoodStyle;
+//  GoodStyle = gStyle;
+ 
+ 
 
   //----------------------------------------------------------------------------
   // Canvas
@@ -94,5 +100,11 @@ void GoodStyle()
   GoodStyle->SetStatX         (0.94);
   GoodStyle->SetStatY         (0.91);
 
+  
+  
+  //---- Load style ----
+  gROOT->SetStyle("GoodStyle"); 
+  GoodStyle->cd();
+  
   return();
 }
