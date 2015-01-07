@@ -509,7 +509,7 @@ finalPlot (int nsel             = 0,
 //   pad1 = new TPad("pad1", "pad1", 0, 0.20, 1, 1);
   pad1 = new TPad("pad1","pad1", 0, 1-0.72, 1, 1);
   pad1->SetTopMargin(0.098);
-  pad1->SetBottomMargin(0.005);
+  pad1->SetBottomMargin(0.000);
   pad1->Draw();
 
   pad2 = new TPad("pad2","pad2",0,0,1,1-0.72);
@@ -557,109 +557,146 @@ finalPlot (int nsel             = 0,
   
  
  if(doDataMCRatio == true){
-  // Data - MC
+  // Data / MC
   //--------------------------------------------------------------------------
 //   TCanvas* c2 = new TCanvas("c2", "c2", 575, 10, 550, 600);
   
-  TH1F* dt = (TH1F*)hData->Clone();
-  TH1F* mc = (TH1F*)hWW->Clone();
+//   TH1F* dt = (TH1F*) hData->Clone();
+  TH1F* dt = (TH1F*) (myPlot._data)->Clone();
+  TH1F* mc = (TH1F*) (myPlot._bkgHist[0])->Clone();
   
   dt->SetNameTitle("dt", "dt");
   mc->SetNameTitle("mc", "mc");
   
   //---- sum up all the bkg histos saved in myPlot object
-  for (int i = 0 ; i < nSamples ; ++i)
-  {
+  for (int i = 1 ; i < nSamples ; ++i) { //---- 0 already added before!
    if (myPlot._bkgHist[i] != 0)
     mc->Add(myPlot._bkgHist[i]) ;    
   }
   
-  //    mc->Add(hZJets);
-  //    mc->Add(hTop  );
-  //    mc->Add(hVV   );
-  //    mc->Add(hWJets);
-  //    mc->Add(hHWW  );
-  
   dt->Rebin(ReBin);
   mc->Rebin(ReBin);
   
-  TH1F* diff = (TH1F*)dt->Clone();
   
-  diff->SetNameTitle("", "");
+  TGraphAsymmErrors* gr_ratio_stat = new TGraphAsymmErrors();
+  TGraphAsymmErrors* gr_ratio_all = new TGraphAsymmErrors();
   
-  diff->Reset();
   double sum[2] = {0., 0.};
+  TH1F* diff = (TH1F*)dt->Clone();
+  diff->SetNameTitle("", "");
+  diff->Reset();
   
-  for (Int_t i=1; i<=diff->GetNbinsX(); i++) {
+  for (Int_t i=0; i < dt->GetNbinsX(); i++) {
+//    std::cout << " i = " << i << " :: " << dt->GetNbinsX() << std::endl;
+   gr_ratio_stat->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
+   gr_ratio_all ->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
    
-   Float_t a = dt->GetBinContent(i);
-   Float_t b = mc->GetBinContent(i);
-   sum[0] = sum[0] + dt->GetBinContent(i);
-   sum[1] = sum[1] + mc->GetBinContent(i);
+   Float_t a = dt->GetBinContent(i+1);
+   Float_t b = mc->GetBinContent(i+1);
+   sum[0] = sum[0] + a;
+   sum[1] = sum[1] + b;
    
-   Float_t sa = dt->GetBinError(i);
-   Float_t sb = mc->GetBinError(i);
-   
+   //---- data/mc with no error
    Float_t d  = 1.0;
-   Float_t sd = 1.0;      
-   if(a > 0 && b >0){
+   if (a > 0 && b >0) {
     d  = a / b;
-    sd = sqrt(sa/a*sa/a+sb/b*sb/b)*d;
-    //d  = a - b;
-    //sd = sqrt(sa*sa+sb*sb);
+   }    
+   diff->SetBinContent(i, d);
+   diff->SetBinError  (i, 0);
+   //----
+   
+   double err_y_lo_stat;
+   double err_y_hi_stat;
+   double err_y_lo;
+   double err_y_hi;
+   
+   if (myPlot._BandError != 0x0) {
+//     std::cout << "     yes error bands ..." << std::endl;
+    Double_t x;
+    Double_t y;
+    (myPlot._BandError)->GetPoint(i, x, y);
     
-    printf("data(%d): %f mc: %f -> data/mc = %f\n",i,a,b,a/b);
-    diff->SetBinContent(i, d);
-    diff->SetBinError  (i, sd);
-   } else {
-    diff->SetBinContent(i, 1.0);
-    diff->SetBinError  (i, 0.0);
-    //diff->SetBinContent(i, 0.0);
-    //diff->SetBinError  (i, 0.0);
+    err_y_lo = (myPlot._BandError)->GetErrorYlow(i);
+    if (y != 0) err_y_lo /= y;
+    err_y_hi = (myPlot._BandError)->GetErrorYhigh(i);
+    if (y != 0) err_y_hi /= y;
+ 
+    if (myPlot._data_correct_error_bars != 0x0) {
+     err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
+     if (y != 0) err_y_lo_stat /= y;
+     err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
+     if (y != 0) err_y_hi_stat /= y;
+    }
+    else {
+     err_y_lo_stat = dt->GetBinError(i+1);
+     err_y_hi_stat = err_y_lo_stat;
+     if (y != 0) err_y_lo_stat /= y;
+     if (y != 0) err_y_hi_stat /= y;
+    }
+    
+    err_y_hi = sqrt(err_y_hi*err_y_hi + err_y_hi_stat*err_y_hi_stat);
+    err_y_lo = sqrt(err_y_lo*err_y_lo + err_y_lo_stat*err_y_lo_stat);
    }
+   else {
+       
+    Float_t sa = dt->GetBinError(i+1);
+    Float_t sb = mc->GetBinError(i+1);
+    Double_t y = b;
+    
+    err_y_lo = sb;
+    if (y != 0) err_y_lo /= y;
+    err_y_hi = sb;
+    if (y != 0) err_y_hi /= y;
+    
+    if (myPlot._data_correct_error_bars != 0x0) {
+     err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
+     if (y != 0) err_y_lo_stat /= y;
+     err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
+     if (y != 0) err_y_hi_stat /= y;
+    }
+    else {
+     err_y_lo_stat = sa;
+     err_y_hi_stat = err_y_lo_stat;
+     if (y != 0) err_y_lo_stat /= y;
+     if (y != 0) err_y_hi_stat /= y;
+    }
+   }
+   
+   //---- set the uncertainties ----
+   gr_ratio_stat->SetPointError (i,dt->GetBinWidth(i+1), dt->GetBinWidth(i+1), err_y_lo_stat, err_y_hi_stat);
+   gr_ratio_all->SetPointError  (i,dt->GetBinWidth(i+1), dt->GetBinWidth(i+1), err_y_lo, err_y_hi);
+   
   }
-  printf("data: %f mc: %f -> data/mc = %f\n",sum[0],sum[1],sum[0]/sum[1]);
-  
-//   diff->Draw();
-  //hHWW->Rebin(ReBin);
-  //hHWW->Draw("same,hist");
+    
   
   diff->SetMinimum(0.4);
   diff->SetMaximum(1.6);
+  
+  gr_ratio_stat->SetFillColor(0);
+  gr_ratio_all->SetFillColor(kGray+1);
+//   gr_ratio_all->SetFillStyle(1001);
+  gr_ratio_all->SetFillStyle(1002);
   
   gStyle->SetOptStat(0);
   
   //TBox* tenPercentBox = new TBox(diff->GetXaxis()->GetXmin(), 0.90,
   //               diff->GetXaxis()->GetXmax(), 1.10);
   
-  //tenPercentBox->SetFillColor(kAzure-9);
-  
+  //tenPercentBox->SetFillColor(kAzure-9);  
   //tenPercentBox->Draw("same");
   
   AxisFonts((TAxis*)diff->GetXaxis(), "x", XTitle);
   AxisFonts((TAxis*)diff->GetYaxis(), "y", "data / MC");
   
-  TLine* oneLine = new TLine(diff->GetXaxis()->GetXmin(), 1, diff->GetXaxis()->GetXmax(), 1);
-  
-  oneLine->SetLineStyle(3);
-  oneLine->SetLineWidth(3);
-  
-//   oneLine->Draw("same");
-  
+//   TLine* oneLine = new TLine(diff->GetXaxis()->GetXmin(), 1, diff->GetXaxis()->GetXmax(), 1);  
+//   oneLine->SetLineStyle(3);
+//   oneLine->SetLineWidth(3);
+    
   diff->SetMarkerStyle(kFullCircle);
   diff->SetLineWidth(0);
-  diff->SetFillColor(kGray+1);
-  diff->SetFillStyle(1001);
-//   diff->Draw("AE2,same"); 
-//   diff->Draw("sameaxis");
-//   diff->Draw("same");
+//   diff->SetFillColor(kGray+1);
+  diff->SetFillStyle(0);
   
-//   c2->GetFrame()->DrawClone();
-  
-  
-  
-  //   c2->Modified();
-  //   c2->Update();
   
   
   pad2->cd()->SetGrid();
@@ -668,12 +705,15 @@ finalPlot (int nsel             = 0,
   oneLine2->SetLineWidth(3);
   Pad2TAxis(diff, XTitle, "data / MC");
   
-  diff->Draw();
+  diff->Draw("P");
+ //   diff->Draw("AE2,same"); 
+//   diff->Draw("sameaxis");
+//   diff->Draw("same");
+  gr_ratio_all ->Draw("2");
+  diff->Draw("Psame");
+  gr_ratio_stat->Draw("P");
   oneLine2->Draw("same");
-  diff->Draw("AE2,same"); 
-  diff->Draw("sameaxis");
-  diff->Draw("same");
-
+  
   
   c1->cd();
   c1->Update();

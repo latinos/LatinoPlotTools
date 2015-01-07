@@ -178,6 +178,7 @@ class StandardPlot {
             _bkgHist.resize (nSamples, 0); 
             _sigHist.resize (nSamples, 0); 
             _data = 0; 
+            _data_correct_error_bars = 0x0;
             _breakdown = 0; 
             _mass = 0; 
             _signalZoom = 1; 
@@ -539,20 +540,20 @@ void SetColorsAndLabels ()
        bool plotCorrectErrorBars = true;
        if (plotCorrectErrorBars == true)
        {
-        TGraphAsymmErrors * g = new TGraphAsymmErrors (_data);
-        for (int i = 0; i < g->GetN (); ++i)
+        _data_correct_error_bars = new TGraphAsymmErrors (_data);
+        for (int i = 0; i < _data_correct_error_bars->GetN (); ++i)
         {
-         double N = g->GetY ()[i];
+         double N = _data_correct_error_bars->GetY ()[i];
          double alpha= (1-0.6827);
          double L = (N==0) ? 0 : (ROOT::Math::gamma_quantile (alpha/2,N,1.));
          double U = (N==0) ? ( ROOT::Math::gamma_quantile_c (alpha,N+1,1.) ) :
          ( ROOT::Math::gamma_quantile_c (alpha/2,N+1,1.) );
-         g->SetPointEYlow (i,double (N)-L);
-         if (N > 0) g->SetPointEYhigh (i, U-double (N));
-         else g->SetPointEYhigh (i, 1.14); // --> bayesian interval Poisson with 0 events observed
-         // g->SetPointEYhigh (i, 0.0);
+         _data_correct_error_bars->SetPointEYlow (i,double (N)-L);
+         if (N > 0) _data_correct_error_bars->SetPointEYhigh (i, U-double (N));
+         else _data_correct_error_bars->SetPointEYhigh (i, 1.14); // --> bayesian interval Poisson with 0 events observed
+         // _data_correct_error_bars->SetPointEYhigh (i, 0.0);
         }
-        g->Draw ("P");
+        _data_correct_error_bars->Draw ("P");
        }
        else {
         _data->Draw ("ep,same");
@@ -753,6 +754,7 @@ void SetColorsAndLabels ()
         std::vector<TH1F*> _sigHist ;
         std::vector<TString> _extraLabels ;
         TH1F* _data;
+        TGraphAsymmErrors* _data_correct_error_bars;
 
         //MWL
         float    _lumi;          //---- lumi on the plot
