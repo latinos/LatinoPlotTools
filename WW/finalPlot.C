@@ -210,24 +210,24 @@ finalPlot (int nsel             = 0,
   myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
   //     myPlot.setIsHWWOverlaid(true);
   
-  myPlot._position[0]  = iVV;
-  myPlot._position[1]  = iWJets;
-  myPlot._position[2]  = iWZ;
-  myPlot._position[3]  = iZZ;
-  myPlot._position[4]  = iFakes;
-  myPlot._position[5]  = iZGamma;
-  myPlot._position[6]  = iVVV;
-  myPlot._position[7]  = iEM;
-  myPlot._position[8]  = iWgamma;
-  myPlot._position[9]  = iWgammaS;
-  myPlot._position[10] = iTop;
-  myPlot._position[11] = iZJets;
-  myPlot._position[12] = iWW;
-  myPlot._position[13] = iHWW;
-  myPlot._position[14] = iggH;
-  myPlot._position[15] = iVBF;
-  myPlot._position[16] = iVH;
-  myPlot._position[17] = nSamples;
+  myPlot.set_Position(0,   iVV);
+  myPlot.set_Position(1,   iWJets);
+  myPlot.set_Position(2,   iWZ);
+  myPlot.set_Position(3,   iZZ);
+  myPlot.set_Position(4,   iFakes);
+  myPlot.set_Position(5,   iZGamma);
+  myPlot.set_Position(6,   iVVV);
+  myPlot.set_Position(7,   iEM);
+  myPlot.set_Position(8,   iWgamma);
+  myPlot.set_Position(9,   iWgammaS);
+  myPlot.set_Position(10,  iTop);
+  myPlot.set_Position(11,  iZJets);
+  myPlot.set_Position(12,  iWW);
+  myPlot.set_Position(13,  iHWW);
+  myPlot.set_Position(14,  iggH);
+  myPlot.set_Position(15,  iVBF);
+  myPlot.set_Position(16,  iVH);
+  myPlot.set_Position(17,  nSamples);
   
  }
  else if (nsel == 6) {
@@ -245,24 +245,24 @@ finalPlot (int nsel             = 0,
   myPlot.setBreakdown(1);
   myPlot.setIsHWWOverlaid(true);
   
-  myPlot._position[0]  = iVV;
-  myPlot._position[1]  = iWJets;
-  myPlot._position[2]  = iWZ;
-  myPlot._position[3]  = iZZ;
-  myPlot._position[4]  = iFakes;
-  myPlot._position[5]  = iZGamma;
-  myPlot._position[6]  = iVVV;
-  myPlot._position[7]  = iEM;
-  myPlot._position[8]  = iWgamma;
-  myPlot._position[9]  = iWgammaS;
-  myPlot._position[10] = iTop;
-  myPlot._position[11] = iZJets;
-  myPlot._position[12] = iWW;
-  myPlot._position[13] = iHWW;
-  myPlot._position[14] = iggH;
-  myPlot._position[15] = iVBF;
-  myPlot._position[16] = iVH;
-  myPlot._position[17] = nSamples;
+  myPlot.set_Position(0,   iVV);
+  myPlot.set_Position(1,   iWJets);
+  myPlot.set_Position(2,   iWZ);
+  myPlot.set_Position(3,   iZZ);
+  myPlot.set_Position(4,   iFakes);
+  myPlot.set_Position(5,   iZGamma);
+  myPlot.set_Position(6,   iVVV);
+  myPlot.set_Position(7,   iEM);
+  myPlot.set_Position(8,   iWgamma);
+  myPlot.set_Position(9,   iWgammaS);
+  myPlot.set_Position(10,  iTop);
+  myPlot.set_Position(11,  iZJets);
+  myPlot.set_Position(12,  iWW);
+  myPlot.set_Position(13,  iHWW);
+  myPlot.set_Position(14,  iggH);
+  myPlot.set_Position(15,  iVBF);
+  myPlot.set_Position(16,  iVH);
+  myPlot.set_Position(17,  nSamples);
   
   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
  }
@@ -283,24 +283,24 @@ finalPlot (int nsel             = 0,
   myPlot.setBreakdown(1);
   myPlot.setIsHWWOverlaid(true);
   
-  myPlot._position[0]  = iVV;
-  myPlot._position[1]  = iWJets;
-  myPlot._position[2]  = iWZ;
-  myPlot._position[3]  = iZZ;
-  myPlot._position[4]  = iFakes;
-  myPlot._position[5]  = iZGamma;
-  myPlot._position[6]  = iVVV;
-  myPlot._position[7]  = iEM;
-  myPlot._position[8]  = iWgamma;
-  myPlot._position[9]  = iWgammaS;
-  myPlot._position[10] = iTop;
-  myPlot._position[11] = iZJets;
-  myPlot._position[12] = iWW;
-  myPlot._position[13] = iHWW;
-  myPlot._position[14] = iggH;
-  myPlot._position[15] = iVBF;
-  myPlot._position[16] = iVH;
-  myPlot._position[17] = nSamples;
+  myPlot.set_Position(0,   iVV);
+  myPlot.set_Position(1,   iWJets);
+  myPlot.set_Position(2,   iWZ);
+  myPlot.set_Position(3,   iZZ);
+  myPlot.set_Position(4,   iFakes);
+  myPlot.set_Position(5,   iZGamma);
+  myPlot.set_Position(6,   iVVV);
+  myPlot.set_Position(7,   iEM);
+  myPlot.set_Position(8,   iWgamma);
+  myPlot.set_Position(9,   iWgammaS);
+  myPlot.set_Position(10,  iTop);
+  myPlot.set_Position(11,  iZJets);
+  myPlot.set_Position(12,  iWW);
+  myPlot.set_Position(13,  iHWW);
+  myPlot.set_Position(14,  iggH);
+  myPlot.set_Position(15,  iVBF);
+  myPlot.set_Position(16,  iVH);
+  myPlot.set_Position(17,  nSamples);
   
   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
  }
