@@ -12,6 +12,7 @@
 #include "TMath.h"
 #include "TGraphAsymmErrors.h"
 #include "StandardPlot.C"
+#include <iostream> 
 
 void 
 finalPlot (int nsel             = 0, 
@@ -36,7 +37,7 @@ finalPlot (int nsel             = 0,
  std::cout << " nsel = " << nsel << std::endl;
  
  gInterpreter->ExecuteMacro("GoodStyle.C");
- gROOT->LoadMacro("StandardPlot.C");
+//  gROOT->LoadMacro("StandardPlot.C");
  
  std::cout << "reading " << plotName << std::endl ;
  TFile* file = new TFile(plotName, "read");

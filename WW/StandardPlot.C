@@ -661,14 +661,14 @@ class StandardPlot {
     flag_extra->Draw ("same");
    }
    
-   TLatex * CMSLabel = new TLatex (0.18, 0.93, "CMS");
+   TText * CMSLabel = new TText (0.18, 0.93, "CMS");
    CMSLabel->SetNDC ();
    CMSLabel->SetTextAlign (10);
    CMSLabel->SetTextFont (61);
    CMSLabel->SetTextSize (_tsize);
    CMSLabel->Draw ("same") ;
    
-   TLatex * CMSLabelPreliminary = new TLatex (0.25, 0.92, "Preliminary");
+   TText * CMSLabelPreliminary = new TText (0.25, 0.93, "Preliminary");
    CMSLabelPreliminary->SetNDC ();
    CMSLabelPreliminary->SetTextAlign (10);
    CMSLabelPreliminary->SetTextFont (52);
