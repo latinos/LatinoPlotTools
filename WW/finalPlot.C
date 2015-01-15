@@ -372,7 +372,7 @@ finalPlot (int nsel             = 0,
   if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
   myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
   myPlot.setIsHWWOverlaid(true);
-  //  myPlot.setBreakdown(2);
+  myPlot.setBreakdown(2); //---> weighted S/(S+B) plots
   
   TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
   if (hqqH != 0) hHWW->Add (hqqH) ;
@@ -602,8 +602,8 @@ finalPlot (int nsel             = 0,
    if (a > 0 && b >0) {
     d  = a / b;
    }    
-   diff->SetBinContent(i, d);
-   diff->SetBinError  (i, 0);
+   diff->SetBinContent(i+1, d);
+   diff->SetBinError  (i+1, 0);
    //----
    
    double err_y_lo_stat;
@@ -664,14 +664,14 @@ finalPlot (int nsel             = 0,
    }
    
    //---- set the uncertainties ----
-   gr_ratio_stat->SetPointError (i,dt->GetBinWidth(i+1), dt->GetBinWidth(i+1), err_y_lo_stat, err_y_hi_stat);
-   gr_ratio_all->SetPointError  (i,dt->GetBinWidth(i+1), dt->GetBinWidth(i+1), err_y_lo, err_y_hi);
-   
+   gr_ratio_stat->SetPointError (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo_stat, err_y_hi_stat);
+   gr_ratio_all->SetPointError  (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo, err_y_hi);
+   std::cout << " [" << i << "] = " << dt->GetBinCenter(i+1) << " :: " << d << " +/- (" <<  err_y_lo_stat << "," << err_y_lo << " :: " << err_y_hi_stat << "," << err_y_hi << std::endl;
   }
     
   
-  diff->SetMinimum(0.4);
-  diff->SetMaximum(1.6);
+  diff->SetMinimum(0.3);
+  diff->SetMaximum(1.7);
   
   gr_ratio_stat->SetFillColor(0);
   gr_ratio_all->SetFillColor(kGray+1);

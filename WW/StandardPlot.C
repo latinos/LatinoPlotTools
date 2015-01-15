@@ -80,11 +80,11 @@ void AxisFonts (TAxis*  axis,  TString coordinate, TString title) {
  axis->SetLabelSize (0.050);
  axis->SetNdivisions (  505);
  axis->SetTitleFont (   42);
- axis->SetTitleOffset (  1.5);
+ axis->SetTitleOffset (  1.3); // 1.5
  axis->SetTitleSize (0.050);
  
  if (coordinate == "y") {
-  axis->SetTitleOffset (1.8);
+  axis->SetTitleOffset (  1.3); //  1.8
   TString titolo = axis->GetTitle () ;
   titolo.ReplaceAll ("Entries", "Events") ;
   axis->SetTitle (titolo) ;
@@ -545,7 +545,10 @@ class StandardPlot {
     hstack->SetMaximum (18 * theMax);
     hstack->SetMinimum (0.10);
    } else {
-    hstack->SetMaximum (1.75 * theMax);
+    hstack->SetMaximum (1.80 * theMax);
+    hstack->SetMinimum (0.05);
+//     hstack->GetYaxis()->SetRangeUser(0.1, 1.80*theMax);
+//     hstack->SetMaximum (1.75 * theMax);
     //         hstack->SetMaximum (1.55 * theMax);
    }
    

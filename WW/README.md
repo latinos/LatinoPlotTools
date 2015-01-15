@@ -81,6 +81,8 @@ for paper:
 
     sh scripts/doHWidth_Top_control.sh
     sh scripts/doHWidth_1.sh
+    sh scripts/doHWidth_1_ratio.sh
+    
 
     
     
