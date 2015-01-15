@@ -30,14 +30,16 @@ finalPlot (int nsel             = 0,
            int blindSX          = 0,
            int blindDX          = 0,
            int XCanvas          = 500,
-           int YCanvas          = 500
+           int YCanvas          = 500,
+           int breakdown        = -1
           )
 {
  
  std::cout << " nsel = " << nsel << std::endl;
  
  gInterpreter->ExecuteMacro("GoodStyle.C");
-//  gROOT->LoadMacro("StandardPlot.C");
+//  gInterpreter->ExecuteMacro("tdrStyle.C");
+ //  gROOT->LoadMacro("StandardPlot.C");
  
  std::cout << "reading " << plotName << std::endl ;
  TFile* file = new TFile(plotName, "read");
@@ -372,7 +374,8 @@ finalPlot (int nsel             = 0,
   if (hqqHoff != 0) hHWWoff->Add (hqqHoff) ;
   myPlot.setMCHist (iHWW, (TH1F*) hHWWoff->Clone ("hHWWoff")) ;
   myPlot.setIsHWWOverlaid(true);
-  myPlot.setBreakdown(2); //---> weighted S/(S+B) plots
+  if (breakdown == -1) myPlot.setBreakdown(2); //---> weighted S/(S+B) plots
+  else                 myPlot.setBreakdown(breakdown);
   
   TH1F* hHWW     = (TH1F*) hggH->Clone ("hggH");
   if (hqqH != 0) hHWW->Add (hqqH) ;
@@ -676,7 +679,8 @@ finalPlot (int nsel             = 0,
   gr_ratio_stat->SetFillColor(0);
   gr_ratio_all->SetFillColor(kGray+1);
 //   gr_ratio_all->SetFillStyle(1001);
-  gr_ratio_all->SetFillStyle(1002);
+//   gr_ratio_all->SetFillStyle(1002);
+  gr_ratio_all->SetFillStyle(3018);
   
   gStyle->SetOptStat(0);
   
@@ -704,8 +708,14 @@ finalPlot (int nsel             = 0,
   TLine* oneLine2 = new TLine(diff->GetXaxis()->GetXmin(), 1,  diff->GetXaxis()->GetXmax(), 1);
   oneLine2->SetLineStyle(3);
   oneLine2->SetLineWidth(3);
-  Pad2TAxis(diff, XTitle, "data / MC");
+//   Pad2TAxis(diff, XTitle, "data / MC");
+  TString completeTitleX;
+  if (TString(units).Sizeof () != 1) completeTitleX = Form("%s [%s]", XTitle, units);
+  else  completeTitleX = Form("%s", XTitle);
+  Pad2TAxis(diff, completeTitleX , "data / MC");
+   
   
+  diff->GetXaxis()->SetTickLength(0.10);
   diff->Draw("P");
  //   diff->Draw("AE2,same"); 
 //   diff->Draw("sameaxis");

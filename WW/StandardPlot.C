@@ -552,6 +552,8 @@ class StandardPlot {
     //         hstack->SetMaximum (1.55 * theMax);
    }
    
+   THStackAxisFonts (hstack, "x", _xLabel.Data ());
+   
    if     (_breakdown == 1) {
     THStackAxisFonts (hstack, "y", "Events / bin");
     hstack->GetHistogram ()->LabelsOption ("v");
@@ -569,7 +571,6 @@ class StandardPlot {
    else {
     THStackAxisFonts (hstack, "x", TString::Format ("%s [%s]",_xLabel.Data (),_units.Data ()));
     if (_units.Sizeof () == 1) {
-     THStackAxisFonts (hstack, "x", _xLabel.Data ());
      //               THStackAxisFonts (hstack, "y", "Events / bin");
      THStackAxisFonts (hstack, "y", TString::Format ("Events / %.1f", _data->GetBinWidth (0)));
     } else {
@@ -653,8 +654,14 @@ class StandardPlot {
    //          flag_lumi->SetTextSize (_tsize);
    //          flag_lumi->Draw ("same");
    //      } 
+
+   float t = gPad->GetTopMargin();
    
-   //---- the lumi label
+   //---- the lumi label 
+   if (_lumiLabel) _lumiLabel->SetTextSize (0.60 * t);
+   
+   
+   //---- the decay channel label
    for (unsigned int i = 0 ; i < _extraLabels.size () ; ++i) {
     TLatex* flag_extra = new TLatex (xstart, ystart - dist * distTimes++, _extraLabels.at (i)) ;
     flag_extra->SetNDC ();
@@ -668,14 +675,16 @@ class StandardPlot {
    CMSLabel->SetNDC ();
    CMSLabel->SetTextAlign (10);
    CMSLabel->SetTextFont (61);
-   CMSLabel->SetTextSize (_tsize);
+//    CMSLabel->SetTextSize (_tsize);
+   CMSLabel->SetTextSize (0.75*t);
    CMSLabel->Draw ("same") ;
    
-   TText * CMSLabelPreliminary = new TText (0.25, 0.93, "Preliminary");
+   TText * CMSLabelPreliminary = new TText (0.25 + 0.8 * t, 0.93, "Preliminary");
    CMSLabelPreliminary->SetNDC ();
    CMSLabelPreliminary->SetTextAlign (10);
    CMSLabelPreliminary->SetTextFont (52);
-   CMSLabelPreliminary->SetTextSize (_tsize);
+//    CMSLabelPreliminary->SetTextSize (_tsize);
+   CMSLabelPreliminary->SetTextSize (0.75*0.76*t);
    CMSLabelPreliminary->Draw ("same") ;
    
    
@@ -696,7 +705,7 @@ class StandardPlot {
   void setBreakdown (const int &d = 0) { _breakdown = d; }
   
   void setLumiLabel (const std::string &s) {
-   _lumiLabel = new TLatex (0.95, 0.93, TString (s));
+   _lumiLabel = new TLatex (0.95, 0.92, TString (s));
    _lumiLabel->SetNDC ();
    _lumiLabel->SetTextAlign (30);
    _lumiLabel->SetTextFont (42);
