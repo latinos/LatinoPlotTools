@@ -274,7 +274,33 @@ class StandardPlot {
     _data->SetBinContent(nbins-i, 0);
     _data->SetBinError(nbins-i, 0);
    }
-  } 
+  }
+  
+  
+  
+  void setDataGraph (TGraphAsymmErrors * gr, int blindSX = 0, int blindDX = 0)  {
+   _data_correct_error_bars = (TGraphAsymmErrors*) gr->Clone();  
+   for (int i=0; i<blindSX; i++) {
+    double x, y;
+    _data_correct_error_bars->GetPoint(i, x, y);
+    double exl = _data_correct_error_bars->GetErrorXlow(i);
+    double exh = _data_correct_error_bars->GetErrorXhigh(i);
+    _data_correct_error_bars->SetPoint (i, x ,0);
+    _data_correct_error_bars->SetPointError(i, exl, exh, 0, 0);
+   }
+   int nbins = _data_correct_error_bars->GetN();
+   for (int i=0; i<blindDX; i++) {
+    double x, y;
+    _data_correct_error_bars->GetPoint(nbins-i-1, x, y);
+    double exl = _data_correct_error_bars->GetErrorXlow(nbins-i-1);
+    double exh = _data_correct_error_bars->GetErrorXhigh(nbins-i-1);
+    _data_correct_error_bars->SetPoint (nbins-i-1, x ,0);
+    _data_correct_error_bars->SetPointError(nbins-i-1, exl, exh, 0, 0);
+   }
+  }
+  
+  
+  
   void setHWWHist  (TH1F * h)                 { setMCHist (iHWW  ,h); } 
   void setWWHist   (TH1F * h)                 { setMCHist (iWW   ,h); } 
   void setggWWHist (TH1F * h)                 { setMCHist (iggWW ,h); } 
@@ -388,6 +414,8 @@ class StandardPlot {
   
   
   TH1* Draw (const int &rebin=1) {
+   std::cout << " Draw " << std::endl;
+   
    //setUpStyle ();
    //if (!gPad) new TCanvas ();
    
@@ -464,8 +492,8 @@ class StandardPlot {
    bool addTenPerCentSyst = false;
    bool plotSystErrorBars = true;
    
-   if (plotSystErrorBars == true)
-   {
+   std::cout << " plotSystErrorBars " << std::endl;
+   if (plotSystErrorBars == true) {
     TGraphAsymmErrors * gsyst = new TGraphAsymmErrors (hSum);
     for (int i = 0; i < gsyst->GetN (); ++i) {
      if (addTenPerCentSyst) {
@@ -496,30 +524,31 @@ class StandardPlot {
     //TExec *setex1 = new TExec ("setex1","gStyle->SetErrorX (0)");
     //setex1->Draw ();
    }
+   
    if (_hist[iHWW] && _isHWWOverlaid == false) _hist[iHWW]->Draw ("hist,same");
    //---- draw signal samples
-   for (int i = 0 ; i < nSamples; i++)
-   {
+   std::cout << " draw signal samples " << std::endl;
+   for (int i = 0 ; i < nSamples; i++) {
     if (_sigHist[i]) _hist[i]->Rebin(rebin);
     if (_sigHist[i]) _hist[i]->Draw ("hist,same") ;
    } //---- draw signal samples
-   if (_data)
-   {
+   if (_data) {
     bool plotCorrectErrorBars = true;
-    if (plotCorrectErrorBars == true)
-    {
-     _data_correct_error_bars = new TGraphAsymmErrors (_data);
-     for (int i = 0; i < _data_correct_error_bars->GetN (); ++i)
-     {
-      double N = _data_correct_error_bars->GetY ()[i];
-      double alpha= (1-0.6827);
-      double L = (N==0) ? 0 : (ROOT::Math::gamma_quantile (alpha/2,N,1.));
-      double U = (N==0) ? ( ROOT::Math::gamma_quantile_c (alpha,N+1,1.) ) :
-      ( ROOT::Math::gamma_quantile_c (alpha/2,N+1,1.) );
-      _data_correct_error_bars->SetPointEYlow (i,double (N)-L);
-      if (N > 0) _data_correct_error_bars->SetPointEYhigh (i, U-double (N));
-      else _data_correct_error_bars->SetPointEYhigh (i, 1.14); // --> bayesian interval Poisson with 0 events observed
-      // _data_correct_error_bars->SetPointEYhigh (i, 0.0);
+    if (plotCorrectErrorBars == true) {
+     std::cout << " _data_correct_error_bars = " << _data_correct_error_bars << std::endl;
+     if (_data_correct_error_bars == 0x0) {
+      _data_correct_error_bars = new TGraphAsymmErrors (_data);
+      for (int i = 0; i < _data_correct_error_bars->GetN (); ++i) {
+       double N = _data_correct_error_bars->GetY ()[i];
+       double alpha= (1-0.6827);
+       double L = (N==0) ? 0 : (ROOT::Math::gamma_quantile (alpha/2,N,1.));
+       double U = (N==0) ? ( ROOT::Math::gamma_quantile_c (alpha,N+1,1.) ) :
+       ( ROOT::Math::gamma_quantile_c (alpha/2,N+1,1.) );
+       _data_correct_error_bars->SetPointEYlow (i,double (N)-L);
+       if (N > 0) _data_correct_error_bars->SetPointEYhigh (i, U-double (N));
+       else _data_correct_error_bars->SetPointEYhigh (i, 1.14); // --> bayesian interval Poisson with 0 events observed
+       // _data_correct_error_bars->SetPointEYhigh (i, 0.0);
+      }
      }
      _data_correct_error_bars->Draw ("P");
     }
@@ -582,6 +611,7 @@ class StandardPlot {
    
    //---- plotting the legend
    //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+   std::cout << " legend " << std::endl;
    
    TString signalLegendRepr = "l" ;
    
