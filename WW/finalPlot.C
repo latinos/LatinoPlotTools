@@ -496,6 +496,7 @@ finalPlot (int nsel             = 0,
  std::cout << "get graph of data if available" << std::endl ;
  TGraphAsymmErrors *gr_data = (TGraphAsymmErrors*)file->Get("gr_data");  
  if (gr_data) {
+  std::cout << " found gr_data " << std::endl;
   myPlot.setDataGraph( (TGraphAsymmErrors*)gr_data->Clone("gr_data"), blindSX, blindDX);  
  }
  std::cout << "printout" << std::endl ;
@@ -611,8 +612,9 @@ finalPlot (int nsel             = 0,
    
    //---- data/mc with no error
    Float_t d  = 1.0;
-   if (a > 0 && b >0) {
-    d  = a / b;
+//    if (a > 0 && b >0) {
+   if (b >0) {
+     d  = a / b;
    }    
    diff->SetBinContent(i+1, d);
    diff->SetBinError  (i+1, 0);
@@ -682,8 +684,10 @@ finalPlot (int nsel             = 0,
   }
     
   
-  diff->SetMinimum(0.3);
-  diff->SetMaximum(1.7);
+//   diff->SetMinimum(0.3);
+//   diff->SetMaximum(1.7);
+  diff->SetMinimum(0.0);
+  diff->SetMaximum(1.8);
   
   gr_ratio_stat->SetFillColor(0);
   gr_ratio_all->SetFillColor(kGray+1);

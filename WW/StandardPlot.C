@@ -550,7 +550,14 @@ class StandardPlot {
        // _data_correct_error_bars->SetPointEYhigh (i, 0.0);
       }
      }
-     _data_correct_error_bars->Draw ("P");
+     else {
+      for (int i = 0; i < _data_correct_error_bars->GetN (); ++i) {
+       double N = _data_correct_error_bars->GetY ()[i];
+       if (N == 0) _data_correct_error_bars->SetPointEYlow (i, 0); //---- if negative error bar, move remove the negative part
+      }
+     }
+     _data_correct_error_bars->Draw ("P0");
+     //---- see     https://root.cern.ch/root/html/TGraphPainter.html
     }
     else {
      _data->Draw ("ep,same");
