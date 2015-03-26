@@ -17,10 +17,10 @@
 void 
 finalPlot (int nsel             = 0, 
            int ReBin            = 1, 
-           char XTitle[300]     = "N_{jets}", 
-           char units[300]      = "", 
-           char plotName[300]   = "histo_nice.root", 
-           char outputName[300] = "njets",
+           char XTitle[300]     = (char*) "N_{jets}", 
+           char units[300]      = (char*) "", 
+           char plotName[300]   = (char*) "histo_nice.root", 
+           char outputName[300] = (char*) "njets",
            bool isLogY          = false, 
            int MassH            = 160, 
            double lumi          = 4.6, 
@@ -484,16 +484,25 @@ finalPlot (int nsel             = 0,
  
  std::cout << "getting data" << std::endl ;
  
- TH1F *hData = (TH1F*)file->Get("Data"); 
+ TH1F *hData = (TH1F*) file->Get("Data"); 
  
  if (!hData) { //---- in case "Data" is called "data"
   hData = (TH1F*)file->Get("data"); 
  }
- 
  std::cout << "passing data to the plotting object" << std::endl ;
- myPlot.setDataHist((TH1F*)hData->Clone("data"), blindSX, blindDX);
+ myPlot.setDataHist( (TH1F*)hData->Clone("data"), blindSX, blindDX);
  
+ 
+ std::cout << "get graph of data if available" << std::endl ;
+ TGraphAsymmErrors *gr_data = (TGraphAsymmErrors*)file->Get("gr_data");  
+ if (gr_data) {
+  myPlot.setDataGraph( (TGraphAsymmErrors*)gr_data->Clone("gr_data"), blindSX, blindDX);  
+ }
  std::cout << "printout" << std::endl ;
+ 
+ 
+ 
+ 
  
  //---- increase the Y length to get 20% size with the ratio plot
  if (doDataMCRatio) {
