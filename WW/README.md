@@ -80,6 +80,8 @@ without ratio plot:
 
     root -l finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_1.root\",\"mllmth_1jet_onshell_8TeV\",0,125,19.4,0,1,0,8,0,800,600\)
 
+for AN:
+
     sh scripts/doHWidth_2.sh
     sh scripts/doHWidth_2j.sh
     
