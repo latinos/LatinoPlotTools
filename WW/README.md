@@ -92,6 +92,9 @@ for paper:
     sh scripts/doHWidth_1_ratio.sh
     
 
+to clean:
+
+    sh scripts/clean.sh
     
     
 
