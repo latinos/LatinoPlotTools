@@ -325,10 +325,11 @@ class StandardPlot {
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   
   
-  void setMass (const int &m) { 
+  void setMass (const float &m) { 
    _mass = m ; 
    TString dummy = "m#lower[0.3]{_{H}} = " ;
-   dummy += _mass ;
+   TString temp = Form("%.1f", _mass) ;
+   dummy += temp;
    dummy += " GeV";
    _extraLabels.push_back (dummy) ;
   }
@@ -413,7 +414,7 @@ class StandardPlot {
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   
   
-  TH1* Draw (const int &rebin=1) {
+  TH1* Draw (const int &rebin=1, int preliminary = 1) {
    std::cout << " Draw " << std::endl;
    
    //setUpStyle ();
@@ -722,8 +723,9 @@ class StandardPlot {
    CMSLabelPreliminary->SetTextFont (52);
 //    CMSLabelPreliminary->SetTextSize (_tsize);
    CMSLabelPreliminary->SetTextSize (0.75*0.76*t);
-   CMSLabelPreliminary->Draw ("same") ;
-   
+   if (preliminary==1) {
+    CMSLabelPreliminary->Draw ("same") ;
+   }
    
    _lumiLabel->Draw ("same") ;
    return hstack->GetHistogram () ;
@@ -789,7 +791,7 @@ class StandardPlot {
   TLatex * _lumiLabel;     //---- label with the centre of mass energy and lumi info
   TLatex * _extraLabel;    //---- any additional labels to be put in the plot
   int      _breakdown;     //---- 
-  int      _mass;          //---- higgs mass
+  float    _mass;          //---- higgs mass
   int      _signalZoom;    //---- signal scale factor for plotting and legenda writing
   Color_t * _sampleColor ; //---- list of colors for the samples
   Bool_t _isHWWOverlaid;

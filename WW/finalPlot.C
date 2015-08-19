@@ -22,7 +22,7 @@ finalPlot (int nsel             = 0,
            char plotName[300]   = (char*) "histo_nice.root", 
            char outputName[300] = (char*) "njets",
            bool isLogY          = false, 
-           int MassH            = 160, 
+           float MassH          = 160, 
            double lumi          = 4.6, 
            bool doDataMCRatio   = true, 
            int signalZoom       = 1,
@@ -555,7 +555,12 @@ finalPlot (int nsel             = 0,
   pad1->cd();
  }
  
- myPlot.Draw(ReBin);  // Can pass a rebin 
+ if (nsel == 11) {
+  myPlot.Draw(ReBin, 0);  // Can pass a rebin, and no "preliminary" 
+ }
+ else {
+  myPlot.Draw(ReBin);  // Can pass a rebin 
+ }
  std::cout << "done" << std::endl ;
  c1->GetFrame()->DrawClone();
  
