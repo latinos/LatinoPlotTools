@@ -605,89 +605,184 @@ finalPlot (int nsel             = 0,
   diff->SetNameTitle("", "");
   diff->Reset();
   
-  for (Int_t i=0; i < dt->GetNbinsX(); i++) {
-//    std::cout << " i = " << i << " :: " << dt->GetNbinsX() << std::endl;
-   gr_ratio_stat->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
-   gr_ratio_all ->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
+  int doRatioMyWay = 0; //---- 1 -> data have no error!    0 -> "standard" cms
+  
+  if (doRatioMyWay == 1) {
    
-   Float_t a = dt->GetBinContent(i+1);
-   Float_t b = mc->GetBinContent(i+1);
-   sum[0] = sum[0] + a;
-   sum[1] = sum[1] + b;
-   
-   //---- data/mc with no error
-   Float_t d  = 1.0;
-//    if (a > 0 && b >0) {
-   if (b >0) {
+   for (Int_t i=0; i < dt->GetNbinsX(); i++) {
+    //    std::cout << " i = " << i << " :: " << dt->GetNbinsX() << std::endl;
+    gr_ratio_stat->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
+    gr_ratio_all ->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
+    
+    Float_t a = dt->GetBinContent(i+1);
+    Float_t b = mc->GetBinContent(i+1);
+    sum[0] = sum[0] + a;
+    sum[1] = sum[1] + b;
+    
+    //---- data/mc with no error
+    Float_t d  = 1.0;
+    //    if (a > 0 && b >0) {
+    if (b >0) {
      d  = a / b;
-   }    
-   diff->SetBinContent(i+1, d);
-   diff->SetBinError  (i+1, 0);
-   //----
-   
-   double err_y_lo_stat;
-   double err_y_hi_stat;
-   double err_y_lo;
-   double err_y_hi;
-   
-   if (myPlot._BandError != 0x0) {
-//     std::cout << "     yes error bands ..." << std::endl;
-    Double_t x;
-    Double_t y;
-    (myPlot._BandError)->GetPoint(i, x, y);
+    }    
+    diff->SetBinContent(i+1, d);
+    diff->SetBinError  (i+1, 0);
+    //----
     
-    err_y_lo = (myPlot._BandError)->GetErrorYlow(i);
-    if (y != 0) err_y_lo /= y;
-    err_y_hi = (myPlot._BandError)->GetErrorYhigh(i);
-    if (y != 0) err_y_hi /= y;
- 
-    if (myPlot._data_correct_error_bars != 0x0) {
-     err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
-     if (y != 0) err_y_lo_stat /= y;
-     err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
-     if (y != 0) err_y_hi_stat /= y;
+    double err_y_lo_stat;
+    double err_y_hi_stat;
+    double err_y_lo;
+    double err_y_hi;
+    
+    if (myPlot._BandError != 0x0) {
+     //     std::cout << "     yes error bands ..." << std::endl;
+     Double_t x;
+     Double_t y;
+     (myPlot._BandError)->GetPoint(i, x, y);
+     
+     err_y_lo = (myPlot._BandError)->GetErrorYlow(i);
+     if (y != 0) err_y_lo /= y;
+     err_y_hi = (myPlot._BandError)->GetErrorYhigh(i);
+     if (y != 0) err_y_hi /= y;
+     
+     if (myPlot._data_correct_error_bars != 0x0) {
+      err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
+      if (y != 0) err_y_lo_stat /= y;
+      err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
+      if (y != 0) err_y_hi_stat /= y;
+     }
+     else {
+      err_y_lo_stat = dt->GetBinError(i+1);
+      err_y_hi_stat = err_y_lo_stat;
+      if (y != 0) err_y_lo_stat /= y;
+      if (y != 0) err_y_hi_stat /= y;
+     }
+     
+     err_y_hi = sqrt(err_y_hi*err_y_hi + err_y_hi_stat*err_y_hi_stat);
+     err_y_lo = sqrt(err_y_lo*err_y_lo + err_y_lo_stat*err_y_lo_stat);
     }
     else {
-     err_y_lo_stat = dt->GetBinError(i+1);
-     err_y_hi_stat = err_y_lo_stat;
-     if (y != 0) err_y_lo_stat /= y;
-     if (y != 0) err_y_hi_stat /= y;
+     
+     Float_t sa = dt->GetBinError(i+1);
+     Float_t sb = mc->GetBinError(i+1);
+     Double_t y = b;
+     
+     err_y_lo = sb;
+     if (y != 0) err_y_lo /= y;
+     err_y_hi = sb;
+     if (y != 0) err_y_hi /= y;
+     
+     if (myPlot._data_correct_error_bars != 0x0) {
+      err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
+      if (y != 0) err_y_lo_stat /= y;
+      err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
+      if (y != 0) err_y_hi_stat /= y;
+     }
+     else {
+      err_y_lo_stat = sa;
+      err_y_hi_stat = err_y_lo_stat;
+      if (y != 0) err_y_lo_stat /= y;
+      if (y != 0) err_y_hi_stat /= y;
+     }
     }
     
-    err_y_hi = sqrt(err_y_hi*err_y_hi + err_y_hi_stat*err_y_hi_stat);
-    err_y_lo = sqrt(err_y_lo*err_y_lo + err_y_lo_stat*err_y_lo_stat);
+    //---- set the uncertainties ----
+    gr_ratio_stat->SetPointError (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo_stat, err_y_hi_stat);
+    gr_ratio_all->SetPointError  (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo, err_y_hi);
+    std::cout << " [" << i << "] = " << dt->GetBinCenter(i+1) << " :: " << d << " +/- (" <<  err_y_lo_stat << "," << err_y_lo << " :: " << err_y_hi_stat << "," << err_y_hi << std::endl;
    }
-   else {
-       
-    Float_t sa = dt->GetBinError(i+1);
-    Float_t sb = mc->GetBinError(i+1);
-    Double_t y = b;
-    
-    err_y_lo = sb;
-    if (y != 0) err_y_lo /= y;
-    err_y_hi = sb;
-    if (y != 0) err_y_hi /= y;
-    
-    if (myPlot._data_correct_error_bars != 0x0) {
-     err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
-     if (y != 0) err_y_lo_stat /= y;
-     err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
-     if (y != 0) err_y_hi_stat /= y;
-    }
-    else {
-     err_y_lo_stat = sa;
-     err_y_hi_stat = err_y_lo_stat;
-     if (y != 0) err_y_lo_stat /= y;
-     if (y != 0) err_y_hi_stat /= y;
-    }
-   }
-   
-   //---- set the uncertainties ----
-   gr_ratio_stat->SetPointError (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo_stat, err_y_hi_stat);
-   gr_ratio_all->SetPointError  (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo, err_y_hi);
-   std::cout << " [" << i << "] = " << dt->GetBinCenter(i+1) << " :: " << d << " +/- (" <<  err_y_lo_stat << "," << err_y_lo << " :: " << err_y_hi_stat << "," << err_y_hi << std::endl;
   }
+  else {
+   
+   
+   for (Int_t i=0; i < dt->GetNbinsX(); i++) {
+    //    std::cout << " i = " << i << " :: " << dt->GetNbinsX() << std::endl;
+  
+    Float_t a = dt->GetBinContent(i+1);
+    Float_t b = mc->GetBinContent(i+1);
+    sum[0] = sum[0] + a;
+    sum[1] = sum[1] + b;
     
+    //---- data/mc with no error
+    Float_t d  = 1.0;
+    //    if (a > 0 && b >0) {
+    if (b >0) {
+     d  = a / b;
+    }    
+    diff->SetBinContent(i+1, d);
+    diff->SetBinError  (i+1, 0);
+    //----
+    
+    gr_ratio_stat->SetPoint (i,dt->GetBinCenter(i+1), d);
+    gr_ratio_all ->SetPoint (i,dt->GetBinCenter(i+1), 1.0);
+    
+    
+    
+    double err_y_lo_stat;
+    double err_y_hi_stat;
+    double err_y_lo;
+    double err_y_hi;
+    
+    if (myPlot._BandError != 0x0) {
+     //     std::cout << "     yes error bands ..." << std::endl;
+     Double_t x;
+     Double_t y;
+     (myPlot._BandError)->GetPoint(i, x, y);
+     
+     err_y_lo = (myPlot._BandError)->GetErrorYlow(i);
+     if (y != 0) err_y_lo /= y;
+     err_y_hi = (myPlot._BandError)->GetErrorYhigh(i);
+     if (y != 0) err_y_hi /= y;
+     
+     if (myPlot._data_correct_error_bars != 0x0) {
+      err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
+      if (y != 0) err_y_lo_stat /= y;
+      err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
+      if (y != 0) err_y_hi_stat /= y;
+     }
+     else {
+      err_y_lo_stat = dt->GetBinError(i+1);
+      err_y_hi_stat = err_y_lo_stat;
+      if (y != 0) err_y_lo_stat /= y;
+      if (y != 0) err_y_hi_stat /= y;
+     }
+     
+//      err_y_hi = sqrt(err_y_hi*err_y_hi + err_y_hi_stat*err_y_hi_stat);
+//      err_y_lo = sqrt(err_y_lo*err_y_lo + err_y_lo_stat*err_y_lo_stat);
+    }
+    else {
+     
+     Float_t sa = dt->GetBinError(i+1);
+     Float_t sb = mc->GetBinError(i+1);
+     Double_t y = b;
+     
+     err_y_lo = sb;
+     if (y != 0) err_y_lo /= y;
+     err_y_hi = sb;
+     if (y != 0) err_y_hi /= y;
+     
+     if (myPlot._data_correct_error_bars != 0x0) {
+      err_y_lo_stat = (myPlot._data_correct_error_bars)->GetErrorYlow(i);
+      if (y != 0) err_y_lo_stat /= y;
+      err_y_hi_stat = (myPlot._data_correct_error_bars)->GetErrorYhigh(i);
+      if (y != 0) err_y_hi_stat /= y;
+     }
+     else {
+      err_y_lo_stat = sa;
+      err_y_hi_stat = err_y_lo_stat;
+      if (y != 0) err_y_lo_stat /= y;
+      if (y != 0) err_y_hi_stat /= y;
+     }
+    }
+    
+    //---- set the uncertainties ----
+    gr_ratio_stat->SetPointError (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo_stat, err_y_hi_stat);
+    gr_ratio_all->SetPointError  (i,dt->GetBinWidth(i+1)/2., dt->GetBinWidth(i+1)/2., err_y_lo, err_y_hi);
+    std::cout << " [" << i << "] = " << dt->GetBinCenter(i+1) << " :: " << d << " +/- (" <<  err_y_lo_stat << "," << err_y_lo << " :: " << err_y_hi_stat << "," << err_y_hi << std::endl;
+   }
+   
+   
+  }
   
 //   diff->SetMinimum(0.3);
 //   diff->SetMaximum(1.7);
