@@ -10,11 +10,11 @@ root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/V
 root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_2_0_0.root\",\"mllmth_1jet_onoffshell_8TeV\",0,125.6,19.4,1,1,19,0,0,1000,600,1\)
 #
 root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_1.root\",\"mllmthmva_0jet_onshell_8TeV\",0,125.6,19.4,1,1,18,0,0,800,600\)
-root -l -q finalPlot.C+\(11,1,\"mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_2.root\",\"mllmthmva_0jet_offshell_8TeV\",0,125.6,19.4,1,1,18,0,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"MVA\ discriminant\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_2.root\",\"mllmthmva_0jet_offshell_8TeV\",0,125.6,19.4,1,1,18,0,0,800,600\)
 root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_4_0_0.root\",\"mllmthmva_0jet_onoffshell_8TeV\",0,125.6,19.4,1,1,18,0,0,1000,600,1\)
 # 
 root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_1.root\",\"mllmthmva_1jet_onshell_8TeV\",0,125.6,19.4,1,1,19,0,0,800,600\)
-root -l -q finalPlot.C+\(11,1,\"mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_2.root\",\"mllmthmva_1jet_offshell_8TeV\",0,125.6,19.4,1,1,19,0,0,800,600\)
+root -l -q finalPlot.C+\(11,1,\"MVA\ discriminant\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_2.root\",\"mllmthmva_1jet_offshell_8TeV\",0,125.6,19.4,1,1,19,0,0,800,600\)
 root -l -q finalPlot.C+\(11,1,\"m_{ll}\ vs\ m_{T}^{H}\/mva\",\"\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_6_0_0.root\",\"mllmthmva_1jet_onoffshell_8TeV\",0,125.6,19.4,1,1,19,0,0,1000,600,1\)
 # 
 root -l -q finalPlot.C+\(11,1,\"m_{T}^{H}\",\"GeV\",\"/home/amassiro/Cern/Code/VBF/qqHWW/AnalysisPackage_qqHWWlnulnu/test/HWidth/Plot/final_3_0_1.root\",\"mllmth_2jet_onshell_8TeV\",0,125.6,19.4,1,1,20,0,0,600,500\)

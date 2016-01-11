@@ -384,10 +384,11 @@ finalPlot (int nsel             = 0,
   
   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
   myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
-  myPlot._sampleLabel[iHWW] = " off-shell 30 x #Gamma_{SM}";
-  myPlot._sampleLabel[iWgammaS] = " on-shell";
+  myPlot._sampleLabel[iHWW] = " SM off-shell 30 x #Gamma_{SM}";
+  myPlot._sampleLabel[iWgammaS] = " On-shell";
   myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
   myPlot._sampleLabel[iggWW] = " ggWW";
+  myPlot._sampleLabel[iTop] = " Top";
  }
  else if (nsel == 12) {
   std::cout << "nsel = " << nsel << ", Higgs width analysis plots: control plots" << std::endl ;
@@ -428,10 +429,11 @@ finalPlot (int nsel             = 0,
   
 //   myPlot.set_ErrorBand(*((TGraphAsymmErrors*) file->Get("errorBand")));
   myPlot._sampleLabel[iWgamma] = " V#gamma^{(*)}";
-  myPlot._sampleLabel[iHWW] = " off-shell 30 x #Gamma_{SM}";
-  myPlot._sampleLabel[iWgammaS] = " on-shell";
+  myPlot._sampleLabel[iHWW] = " SM off-shell 30 x #Gamma_{SM}";
+  myPlot._sampleLabel[iWgammaS] = " On-shell";
   myPlot._sampleLabel[iVV] = " WZ+ZZ+VVV";
   myPlot._sampleLabel[iggWW] = " ggWW";
+  myPlot._sampleLabel[iTop] = " Top";
  }
  else if (nsel == 13) {
   std::cout << "nsel = " << nsel << ", Higgs width analysis plots: Top control plots" << std::endl ;
@@ -804,7 +806,8 @@ finalPlot (int nsel             = 0,
   //tenPercentBox->Draw("same");
   
   AxisFonts((TAxis*)diff->GetXaxis(), "x", XTitle);
-  AxisFonts((TAxis*)diff->GetYaxis(), "y", "data / MC");
+  AxisFonts((TAxis*)diff->GetYaxis(), "y", "Data / MC");
+//   AxisFonts((TAxis*)diff->GetYaxis(), "y", "data / MC");
   
 //   TLine* oneLine = new TLine(diff->GetXaxis()->GetXmin(), 1, diff->GetXaxis()->GetXmax(), 1);  
 //   oneLine->SetLineStyle(3);
@@ -825,8 +828,9 @@ finalPlot (int nsel             = 0,
   TString completeTitleX;
   if (TString(units).Sizeof () != 1) completeTitleX = Form("%s [%s]", XTitle, units);
   else  completeTitleX = Form("%s", XTitle);
-  Pad2TAxis(diff, completeTitleX , "data / MC");
-   
+//   Pad2TAxis(diff, completeTitleX , "data / MC");
+  Pad2TAxis(diff, completeTitleX , "Data / MC");
+  
   
   diff->GetXaxis()->SetTickLength(0.10);
   diff->Draw("P");

@@ -626,7 +626,8 @@ class StandardPlot {
    int j=0;
    
    // data: check if there is "data" (just once, j==0)
-   if (_data ) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _data,          " data",    "lp"); j++; }
+//    if (_data ) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _data,          " data",    "lp"); j++; }
+   if (_data ) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _data,          " Data",    "lp"); j++; }
    
    if (_hist[iHWW      ]) { DrawLegend (xPos[j], 0.84 - yOff[j]*_yoffset, _hist[iHWW      ], _sampleLabel [iHWW      ], signalLegendRepr); j++; } 
    else if (_hist[iggH      ]==0x0 && _hist[iVBF      ]==0x0 && _hist[iVH      ]==0x0) {  
