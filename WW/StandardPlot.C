@@ -30,14 +30,17 @@ enum samp { iWW, iggWW, iZJets, iTop, iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iV
 
 
 //                         data
-float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43}; 
+// float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43}; 
+float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49}; 
 float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
 // float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
 // float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
 
 const Float_t _tsize   = 0.033;
-const Float_t _xoffset = 0.20;
-const Float_t _yoffset = 0.05;
+// const Float_t _xoffset = 0.20;
+// const Float_t _yoffset = 0.05;
+const Float_t _xoffset = 0.15;
+const Float_t _yoffset = 0.06;
 
 
 //------------------------------------------------------------------------------
@@ -77,11 +80,14 @@ Float_t GetMaximumIncludingErrors (TH1F* h) {
 void AxisFonts (TAxis*  axis,  TString coordinate, TString title) {
  axis->SetLabelFont (   42);
  axis->SetLabelOffset (0.015);
- axis->SetLabelSize (0.050);
+ //  axis->SetLabelSize (0.050);
+//  axis->SetLabelSize (0.060);
+ axis->SetLabelSize (0.07);
  axis->SetNdivisions (  505);
  axis->SetTitleFont (   42);
  axis->SetTitleOffset (  1.3); // 1.5
- axis->SetTitleSize (0.050);
+//  axis->SetTitleSize (0.050);
+ axis->SetTitleSize (0.060);
  
  if (coordinate == "y") {
   axis->SetTitleOffset (  1.3); //  1.8
@@ -98,21 +104,26 @@ void Pad2TAxis(TH1* hist, TString xtitle, TString ytitle) {
  TAxis* yaxis = (TAxis*)hist->GetYaxis();
  xaxis->SetLabelFont ( 42);
  xaxis->SetLabelOffset( 0.025);
- xaxis->SetLabelSize ( 0.1);
+ xaxis->SetLabelSize ( 0.12);
+ //  xaxis->SetLabelSize ( 0.1);
  xaxis->SetNdivisions ( 505);
  xaxis->SetTitle (xtitle);
  xaxis->SetTitleFont ( 42);
  xaxis->SetTitleOffset( 1.35);
- xaxis->SetTitleSize ( 0.11);
+//  xaxis->SetTitleSize ( 0.11);
+ xaxis->SetTitleSize ( 0.13);
+ 
  yaxis->CenterTitle ( );
  yaxis->SetLabelFont ( 42);
  yaxis->SetLabelOffset( 0.02);
- yaxis->SetLabelSize ( 0.1);
+ yaxis->SetLabelSize ( 0.12);
+//  yaxis->SetLabelSize ( 0.1);
  yaxis->SetNdivisions ( 505);
  yaxis->SetTitle (ytitle);
  yaxis->SetTitleFont ( 42);
  yaxis->SetTitleOffset( .6);
- yaxis->SetTitleSize ( 0.11);
+//  yaxis->SetTitleSize ( 0.11);
+ yaxis->SetTitleSize ( 0.13);
 }
 
 //------------------------------------------------------------------------------
@@ -136,7 +147,8 @@ void DrawLegend (Float_t x1,  Float_t y1,  TH1F*   hist,  TString label,  TStrin
  legend->SetFillColor (0) ;
  legend->SetTextAlign (12) ;
  legend->SetTextFont (42) ;
- legend->SetTextSize (_tsize) ;
+ legend->SetTextSize (_tsize*1.3) ;
+//  legend->SetTextSize (_tsize) ;
  
  legend->AddEntry (hist, label.Data (), option.Data ());
  
@@ -702,11 +714,13 @@ class StandardPlot {
    
    //---- the decay channel label
    for (unsigned int i = 0 ; i < _extraLabels.size () ; ++i) {
-    TLatex* flag_extra = new TLatex (xstart, ystart - dist * distTimes++, _extraLabels.at (i)) ;
+//     TLatex* flag_extra = new TLatex (xstart, ystart - dist * distTimes++, _extraLabels.at (i)) ;
+    TLatex* flag_extra = new TLatex (xstart+0.035, ystart - dist * distTimes++, _extraLabels.at (i)) ;
     flag_extra->SetNDC ();
     flag_extra->SetTextAlign (32);
     flag_extra->SetTextFont (42);
-    flag_extra->SetTextSize (_tsize);
+//     flag_extra->SetTextSize (_tsize);
+    flag_extra->SetTextSize (_tsize*1.3);
     flag_extra->Draw ("same");
    }
    
@@ -753,6 +767,7 @@ class StandardPlot {
   }
   
   void addLabel (const std::string &s) {
+//    _extraLabel = new TLatex (0.9, 0.54, TString (s));
    _extraLabel = new TLatex (0.9, 0.74, TString (s));
    _extraLabel->SetNDC ();
    _extraLabel->SetTextAlign (32);
