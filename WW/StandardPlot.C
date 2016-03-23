@@ -109,9 +109,11 @@ void Pad2TAxis(TH1* hist, TString xtitle, TString ytitle) {
  xaxis->SetNdivisions ( 505);
  xaxis->SetTitle (xtitle);
  xaxis->SetTitleFont ( 42);
- xaxis->SetTitleOffset( 1.35);
-//  xaxis->SetTitleSize ( 0.11);
- xaxis->SetTitleSize ( 0.13);
+//  xaxis->SetTitleOffset( 1.35);
+ xaxis->SetTitleOffset( 1.25);
+ //  xaxis->SetTitleSize ( 0.11);
+//  xaxis->SetTitleSize ( 0.13);
+ xaxis->SetTitleSize ( 0.15);
  
  yaxis->CenterTitle ( );
  yaxis->SetLabelFont ( 42);
