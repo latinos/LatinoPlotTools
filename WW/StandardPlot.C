@@ -31,8 +31,8 @@ enum samp { iWW, iggWW, iZJets, iTop, iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iV
 
 //                         data
 // float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43}; 
-float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49}; 
-float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
+float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49}; 
+float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10, 11};
 // float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
 // float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
 
@@ -508,7 +508,7 @@ class StandardPlot {
    bool plotSystErrorBars = true;
    
    std::cout << " plotSystErrorBars " << std::endl;
-   if (plotSystErrorBars == true) {
+   if (plotSystErrorBars == true) {  
     TGraphAsymmErrors * gsyst = new TGraphAsymmErrors (hSum);
     for (int i = 0; i < gsyst->GetN (); ++i) {
      if (addTenPerCentSyst) {
@@ -671,6 +671,17 @@ class StandardPlot {
     // backgrounds
     if (_hist[jSample      ]) { DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, _hist[jSample      ], _sampleLabel [jSample      ], "f" ); counterPosition++;}
     
+   }
+   
+   if (plotSystErrorBars == true) {  
+    TH1F* tempo = new TH1F("tempo","",1,0,1);
+    tempo->SetFillColor (12);
+    tempo->SetFillStyle (3345);
+    tempo->SetLineWidth (0);
+    tempo->SetLineColor (kWhite);
+//     std::cout << " CIAO " << std::endl;
+    DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, tempo, " Systematics", "F"); 
+    counterPosition++;  
    }
    
    std::cout << " ended " << std::endl;
