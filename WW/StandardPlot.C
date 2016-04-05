@@ -31,8 +31,8 @@ enum samp { iWW, iggWW, iZJets, iTop, iVV, iWJets, iWZ, iZZ, iFakes, iZGamma, iV
 
 //                         data
 // float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43,0.43}; 
-float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49,0.49}; 
-float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10, 11};
+float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.49,0.49,0.49,0.49,0.49,0.69,0.79,0.49,0.49,0.49}; 
+float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,4   ,5   ,6   ,7   ,8   ,9   ,10, 11};
 // float xPos[nSamples+1] = {0.19      ,0.19,0.19,0.19,0.19,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41,0.41}; 
 // float yOff[nSamples+1] = {0         ,1   ,2   ,3   ,4   ,0   ,1   ,2   ,3   ,4   ,5   ,6   ,7   ,8   ,9   ,10};
 
@@ -680,7 +680,8 @@ class StandardPlot {
     tempo->SetLineWidth (0);
     tempo->SetLineColor (kWhite);
 //     std::cout << " CIAO " << std::endl;
-    DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, tempo, " Systematics", "F"); 
+//     DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, tempo, " Systematics", "F"); 
+    DrawLegend (xPos[counterPosition], 0.84 - yOff[counterPosition]*_yoffset, tempo, " Bkg uncertainty", "F"); 
     counterPosition++;  
    }
    
