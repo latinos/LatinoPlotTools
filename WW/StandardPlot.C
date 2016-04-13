@@ -224,7 +224,8 @@ class StandardPlot {
    _sampleColor[iVBF    ] = kBlue + 1 ;
    _sampleColor[iVH     ] = 635 ; // kRed + 3?
    _sampleColor[iWgamma ] = 616+1; // kViolet + 1 ;
-   _sampleColor[iWgammaS] = 616+1; // kViolet + 1  ;
+//    _sampleColor[iWgammaS] = 616+1; // kViolet + 1  ;
+   _sampleColor[iWgammaS] = 603; // kBlue + 3  ;  // ---> for Hwidth
    
    _sampleLabel = new TString [nSamples] ;
    TString higgsLabel ;
